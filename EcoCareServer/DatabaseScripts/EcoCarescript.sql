@@ -26,8 +26,8 @@ InitialMeatMeals int,
 VeganRareMeat bit,
 Vegetarian bit, 
 ModeOfTransportation nvarchar(30) not null, 
-KilometersFromHomeToWork double not null, 
-LastPaymentForElectricity double(10) not null, 
+KilometersFromHomeToWork float not null, 
+LastPaymentForElectricity float not null, 
 PeopleAtTheSameHousehold int not null, 
 Stars int not null,
 )
@@ -36,8 +36,8 @@ Go
 Create Table DateAndData (
 DateWeekStart date primary key, 
 UserName nvarchar primary key,
-KilometerWalked double not null, 
-ElectricityUsed double not null, 
+KilometerWalked float not null, 
+ElectricityUsed float not null, 
 MeatsMeals int not null, 
 ) 
 Go 

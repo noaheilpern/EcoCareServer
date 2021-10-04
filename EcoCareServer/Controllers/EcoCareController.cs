@@ -19,5 +19,12 @@ namespace EcoCareServer.Controllers
             this.context = context;
         }
         #endregion
+
+        [Route("Test")]
+        [HttpGet]
+        public string Test()
+        {
+            return "hello World!";
+        }
     }
 }
