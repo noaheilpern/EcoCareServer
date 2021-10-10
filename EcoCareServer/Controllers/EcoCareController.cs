@@ -26,5 +26,25 @@ namespace EcoCareServer.Controllers
         {
             return "hello World!";
         }
+
+        [Route("IsUserNameExist")]
+        [HttpPost]
+        public Boolean IsUserNameExist([FromQuery] string userName)
+        {
+            //If username is null the request is bad
+            if (userName == null)
+            {
+                Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
+                return true;
+            }
+            foreach (User u in context.Users)
+            {
+                if (u.UserName.Equals(userName))
+                    return true; 
+            }
+            return false; 
+           
+            
+        }
     }
 }
