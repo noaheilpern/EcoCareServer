@@ -28,7 +28,7 @@ namespace EcoCareServer.Controllers
         }
 
         [Route("IsUserNameExist")]
-        [HttpPost]
+        [HttpGet]
         public Boolean IsUserNameExist([FromQuery] string userName)
         {
             //If username is null the request is bad
