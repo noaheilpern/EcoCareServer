@@ -17,7 +17,13 @@ namespace EcoCareServerBL.Models
         {
         }
 
+        public virtual DbSet<Goal> Goals { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<RegularUser> RegularUsers { get; set; }
+        public virtual DbSet<Sale> Sales { get; set; }
+        public virtual DbSet<Seller> Sellers { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<UserData> UsersData { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -32,28 +38,164 @@ namespace EcoCareServerBL.Models
         {
             modelBuilder.HasAnnotation("Relational:Collation", "Hebrew_CI_AS");
 
+            modelBuilder.Entity<Goal>(entity =>
+            {
+                entity.HasKey(e => e.DateT)
+                    .HasName("PK__Goals__BFFD8573BC9A33CC");
+
+                entity.Property(e => e.DateT).HasColumnType("date");
+
+                entity.Property(e => e.Goal1).HasColumnName("Goal");
+
+                entity.Property(e => e.UserName)
+                    .IsRequired()
+                    .HasMaxLength(1);
+
+                entity.HasOne(d => d.UserNameNavigation)
+                    .WithMany(p => p.Goals)
+                    .HasForeignKey(d => d.UserName)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Goals__UserName__33D4B598");
+            });
+
+            modelBuilder.Entity<Product>(entity =>
+            {
+                entity.ToTable("Product");
+
+                entity.Property(e => e.ProductId).ValueGeneratedNever();
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(1);
+
+                entity.Property(e => e.ImageSource)
+                    .IsRequired()
+                    .HasMaxLength(1);
+
+                entity.Property(e => e.SellersUsername)
+                    .IsRequired()
+                    .HasMaxLength(1);
+
+                entity.Property(e => e.Title)
+                    .IsRequired()
+                    .HasMaxLength(1);
+            });
+
+            modelBuilder.Entity<RegularUser>(entity =>
+            {
+                entity.HasKey(e => e.UserName)
+                    .HasName("PK__RegularU__C9F2845777834C61");
+
+                entity.ToTable("RegularUser");
+
+                entity.Property(e => e.UserName).HasMaxLength(1);
+
+                entity.Property(e => e.Birthday).HasColumnType("date");
+
+                entity.Property(e => e.City)
+                    .IsRequired()
+                    .HasMaxLength(1);
+
+                entity.Property(e => e.Country)
+                    .IsRequired()
+                    .HasMaxLength(1);
+
+                entity.Property(e => e.Street)
+                    .IsRequired()
+                    .HasMaxLength(1);
+
+                entity.Property(e => e.Transportation)
+                    .IsRequired()
+                    .HasMaxLength(1);
+            });
+
+            modelBuilder.Entity<Sale>(entity =>
+            {
+                entity.Property(e => e.SaleId).ValueGeneratedNever();
+
+                entity.Property(e => e.BuyerUserName)
+                    .IsRequired()
+                    .HasMaxLength(1);
+
+                entity.HasOne(d => d.BuyerUserNameNavigation)
+                    .WithMany(p => p.Sales)
+                    .HasForeignKey(d => d.BuyerUserName)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Sales__BuyerUser__2D27B809");
+
+                entity.HasOne(d => d.Product)
+                    .WithMany(p => p.Sales)
+                    .HasForeignKey(d => d.ProductId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Sales__ProductId__2E1BDC42");
+            });
+
+            modelBuilder.Entity<Seller>(entity =>
+            {
+                entity.HasKey(e => e.UserName)
+                    .HasName("PK__Seller__C9F284579BB100A9");
+
+                entity.ToTable("Seller");
+
+                entity.Property(e => e.UserName).HasMaxLength(1);
+
+                entity.Property(e => e.City)
+                    .IsRequired()
+                    .HasMaxLength(1);
+
+                entity.Property(e => e.Country)
+                    .IsRequired()
+                    .HasMaxLength(1);
+
+                entity.Property(e => e.HoneNum)
+                    .IsRequired()
+                    .HasMaxLength(1)
+                    .HasColumnName("honeNum");
+
+                entity.Property(e => e.Street)
+                    .IsRequired()
+                    .HasMaxLength(1);
+            });
+
             modelBuilder.Entity<User>(entity =>
             {
+                entity.HasKey(e => e.UserName)
+                    .HasName("PK__Users__C9F28457189939E3");
+
                 entity.HasIndex(e => e.Email, "UC_Email")
                     .IsUnique();
 
-                entity.Property(e => e.Id).HasColumnName("ID");
+                entity.Property(e => e.UserName).HasMaxLength(1);
 
                 entity.Property(e => e.Email)
                     .IsRequired()
-                    .HasMaxLength(100);
+                    .HasMaxLength(1);
 
                 entity.Property(e => e.FirstName)
                     .IsRequired()
-                    .HasMaxLength(30);
+                    .HasMaxLength(1);
 
                 entity.Property(e => e.LastName)
                     .IsRequired()
-                    .HasMaxLength(30);
+                    .HasMaxLength(1);
+            });
 
-                entity.Property(e => e.UserPswd)
+            modelBuilder.Entity<UserData>(entity =>
+            {
+                entity.HasKey(e => e.DateT)
+                    .HasName("PK__UsersDat__BFFD857383891EBD");
+
+                entity.Property(e => e.DateT).ValueGeneratedNever();
+
+                entity.Property(e => e.UserName)
                     .IsRequired()
-                    .HasMaxLength(30);
+                    .HasMaxLength(1);
+
+                entity.HasOne(d => d.UserNameNavigation)
+                    .WithMany(p => p.UsersData)
+                    .HasForeignKey(d => d.UserName)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__UsersData__UserN__30F848ED");
             });
 
             OnModelCreatingPartial(modelBuilder);
