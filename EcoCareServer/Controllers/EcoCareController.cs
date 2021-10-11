@@ -46,5 +46,25 @@ namespace EcoCareServer.Controllers
            
             
         }
+
+        [Route("IsEmailExist")]
+        [HttpGet]
+        public Boolean IsEmailExist([FromQuery] string email)
+        {
+            //If email is null the request is bad
+            if (email == null)
+            {
+                Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
+                return true;
+            }
+            foreach (User u in context.Users)
+            {
+                if (u.Email.Equals(email))
+                    return true;
+            }
+            return false;
+
+
+        }
     }
 }

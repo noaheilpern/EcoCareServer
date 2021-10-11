@@ -23,7 +23,7 @@ namespace EcoCareServerBL.Models
         public virtual DbSet<Sale> Sales { get; set; }
         public virtual DbSet<Seller> Sellers { get; set; }
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<UserData> UsersData { get; set; }
+        public virtual DbSet<UsersDatum> UsersData { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -41,7 +41,7 @@ namespace EcoCareServerBL.Models
             modelBuilder.Entity<Goal>(entity =>
             {
                 entity.HasKey(e => e.DateT)
-                    .HasName("PK__Goals__BFFD8573BC9A33CC");
+                    .HasName("PK__Goals__BFFD857355336D96");
 
                 entity.Property(e => e.DateT).HasColumnType("date");
 
@@ -84,7 +84,7 @@ namespace EcoCareServerBL.Models
             modelBuilder.Entity<RegularUser>(entity =>
             {
                 entity.HasKey(e => e.UserName)
-                    .HasName("PK__RegularU__C9F2845777834C61");
+                    .HasName("PK__RegularU__C9F284578B4499CD");
 
                 entity.ToTable("RegularUser");
 
@@ -133,7 +133,7 @@ namespace EcoCareServerBL.Models
             modelBuilder.Entity<Seller>(entity =>
             {
                 entity.HasKey(e => e.UserName)
-                    .HasName("PK__Seller__C9F284579BB100A9");
+                    .HasName("PK__Seller__C9F28457BBF829AE");
 
                 entity.ToTable("Seller");
 
@@ -160,7 +160,7 @@ namespace EcoCareServerBL.Models
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasKey(e => e.UserName)
-                    .HasName("PK__Users__C9F28457189939E3");
+                    .HasName("PK__Users__C9F284573C2C5DC0");
 
                 entity.HasIndex(e => e.Email, "UC_Email")
                     .IsUnique();
@@ -180,10 +180,10 @@ namespace EcoCareServerBL.Models
                     .HasMaxLength(1);
             });
 
-            modelBuilder.Entity<UserData>(entity =>
+            modelBuilder.Entity<UsersDatum>(entity =>
             {
                 entity.HasKey(e => e.DateT)
-                    .HasName("PK__UsersDat__BFFD857383891EBD");
+                    .HasName("PK__UsersDat__BFFD8573A71B5A33");
 
                 entity.Property(e => e.DateT).ValueGeneratedNever();
 

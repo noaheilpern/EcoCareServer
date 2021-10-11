@@ -11,7 +11,7 @@ namespace EcoCareServerBL.Models
         {
             Goals = new HashSet<Goal>();
             Sales = new HashSet<Sale>();
-            UsersData = new HashSet<UserData>();
+            UsersData = new HashSet<UsersDatum>();
         }
 
         public string UserName { get; set; }
@@ -29,6 +29,6 @@ namespace EcoCareServerBL.Models
 
         public virtual ICollection<Goal> Goals { get; set; }
         public virtual ICollection<Sale> Sales { get; set; }
-        public virtual ICollection<UserData> UsersData { get; set; }
+        public virtual ICollection<UsersDatum> UsersData { get; set; }
     }
 }
