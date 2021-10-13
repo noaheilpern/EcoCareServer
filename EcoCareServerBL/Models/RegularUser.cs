@@ -17,8 +17,6 @@ namespace EcoCareServerBL.Models
         public string UserName { get; set; }
         public DateTime Birthday { get; set; }
         public string Country { get; set; }
-        public string City { get; set; }
-        public string Street { get; set; }
         public int InitialMeatsMeals { get; set; }
         public bool VeganRareMeat { get; set; }
         public bool Vegetarian { get; set; }

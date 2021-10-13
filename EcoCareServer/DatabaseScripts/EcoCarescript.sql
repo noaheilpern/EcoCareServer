@@ -9,8 +9,6 @@ CREATE TABLE RegularUser(
     UserName nvarchar primary key not null,
     Birthday date not null,
     Country nvarchar not null,
-    City nvarchar not null,
-    Street nvarchar not null,
     InitialMeatsMeals int not null,
     VeganRareMeat bit not null,
     Vegetarian bit not null,
@@ -33,7 +31,7 @@ CREATE TABLE Product(
 CREATE TABLE Users(
     UserName nvarchar primary key not null,
     Email nvarchar not null,
-    Pass int not null,
+    Pass nvarchar not null,
     FirstName nvarchar not null,
     LastName nvarchar not null,
     IsAdmin bit not null,
@@ -43,7 +41,7 @@ CREATE TABLE Users(
 
 CREATE TABLE Seller(
     UserName nvarchar primary key not null,
-    honeNum nvarchar not null,
+    PhoneNum nvarchar not null,
     Country nvarchar not null,
     City nvarchar not null,
     Street nvarchar not null

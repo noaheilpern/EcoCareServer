@@ -11,6 +11,7 @@ namespace EcoCareServer
 {
     public class Program
     {
+        
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
@@ -23,5 +24,5 @@ namespace EcoCareServer
                     webBuilder.UseStartup<Startup>();
                 });
     }
-
+   
 }

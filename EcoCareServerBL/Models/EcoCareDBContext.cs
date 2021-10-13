@@ -41,7 +41,7 @@ namespace EcoCareServerBL.Models
             modelBuilder.Entity<Goal>(entity =>
             {
                 entity.HasKey(e => e.DateT)
-                    .HasName("PK__Goals__BFFD857355336D96");
+                    .HasName("PK__Goals__BFFD85730CE1A5F4");
 
                 entity.Property(e => e.DateT).HasColumnType("date");
 
@@ -84,7 +84,7 @@ namespace EcoCareServerBL.Models
             modelBuilder.Entity<RegularUser>(entity =>
             {
                 entity.HasKey(e => e.UserName)
-                    .HasName("PK__RegularU__C9F284578B4499CD");
+                    .HasName("PK__RegularU__C9F28457BDBBF6DE");
 
                 entity.ToTable("RegularUser");
 
@@ -92,15 +92,7 @@ namespace EcoCareServerBL.Models
 
                 entity.Property(e => e.Birthday).HasColumnType("date");
 
-                entity.Property(e => e.City)
-                    .IsRequired()
-                    .HasMaxLength(1);
-
                 entity.Property(e => e.Country)
-                    .IsRequired()
-                    .HasMaxLength(1);
-
-                entity.Property(e => e.Street)
                     .IsRequired()
                     .HasMaxLength(1);
 
@@ -133,7 +125,7 @@ namespace EcoCareServerBL.Models
             modelBuilder.Entity<Seller>(entity =>
             {
                 entity.HasKey(e => e.UserName)
-                    .HasName("PK__Seller__C9F28457BBF829AE");
+                    .HasName("PK__Seller__C9F28457A22067C9");
 
                 entity.ToTable("Seller");
 
@@ -147,10 +139,9 @@ namespace EcoCareServerBL.Models
                     .IsRequired()
                     .HasMaxLength(1);
 
-                entity.Property(e => e.HoneNum)
+                entity.Property(e => e.PhoneNum)
                     .IsRequired()
-                    .HasMaxLength(1)
-                    .HasColumnName("honeNum");
+                    .HasMaxLength(1);
 
                 entity.Property(e => e.Street)
                     .IsRequired()
@@ -160,7 +151,7 @@ namespace EcoCareServerBL.Models
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasKey(e => e.UserName)
-                    .HasName("PK__Users__C9F284573C2C5DC0");
+                    .HasName("PK__Users__C9F28457DFA58F30");
 
                 entity.HasIndex(e => e.Email, "UC_Email")
                     .IsUnique();
@@ -183,7 +174,7 @@ namespace EcoCareServerBL.Models
             modelBuilder.Entity<UsersDatum>(entity =>
             {
                 entity.HasKey(e => e.DateT)
-                    .HasName("PK__UsersDat__BFFD8573A71B5A33");
+                    .HasName("PK__UsersDat__BFFD8573AC3D6980");
 
                 entity.Property(e => e.DateT).ValueGeneratedNever();
 
