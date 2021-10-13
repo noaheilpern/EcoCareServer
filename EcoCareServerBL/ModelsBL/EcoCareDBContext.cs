@@ -11,12 +11,12 @@ namespace EcoCareServerBL.Models
     public partial class EcoCareDBContext: DbContext
     {
 
-        public User Login(string email, string pswd)
-        {
-            User user = this.Users
-                .Where(u => u.Email == email && u.Pass == pswd).FirstOrDefault();
+        //public User Login(string email, string pswd)
+        //{
+        //    User user = this.Users
+        //        .Where(u => u.Email == email && u.Pass == pswd).FirstOrDefault();
 
-            return user;
-        }
+        //    return user;
+        //}
     }
 }
