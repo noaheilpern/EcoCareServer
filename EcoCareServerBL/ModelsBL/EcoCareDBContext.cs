@@ -10,13 +10,22 @@ namespace EcoCareServerBL.Models
 {
     public partial class EcoCareDBContext: DbContext
     {
+        public void AddRegularUser(RegularUser ru)
+        {
+            this.RegularUsers.Add(ru);
+            this.SaveChanges();
+        }
+        public void AddSeller(Seller s)
+        {
+            this.Sellers.Add(s);
+            this.SaveChanges(); 
+        }
+        public User Login(string email, string pswd)
+        {
+            User user = this.Users
+                .Where(u => u.Email == email && u.Pass == pswd).FirstOrDefault();
 
-        //public User Login(string email, string pswd)
-        //{
-        //    User user = this.Users
-        //        .Where(u => u.Email == email && u.Pass == pswd).FirstOrDefault();
-
-        //    return user;
-        //}
+            return user;
+        }
     }
 }

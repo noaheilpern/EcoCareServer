@@ -20,12 +20,51 @@ namespace EcoCareServer.Controllers
         }
         #endregion
 
-        [Route("Test")]
-        [HttpGet]
-        public string Test()
+
+        [Route("RegisterUser")]
+        [HttpPost]
+
+        public User RegisterUser([FromBody] RegularUser u)
         {
-            return "hello World!";
+            RegularUser user = new RegularUser()
+            {
+                Email = u.Email,
+                UserName = u.UserName,
+                Pass = u.Pass,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                Birthday = u.Birthday,
+                Country = u.Country,
+                PeopleAtTheHousehold = u.PeopleAtTheHousehold,
+                LastElectricityBill = u.LastElectricityBill,
+                DistanceToWork = u.DistanceToWork,
+                IsAdmin = u.IsAdmin,
+                Transportation = u.Transportation, 
+                Vegetarian = u.Vegetarian, 
+                VeganRareMeat = u.VeganRareMeat, 
+                InitialMeatsMeals = u.InitialMeatsMeals,  
+
+
+
+            };
+
+            
+            //Check user name and password
+            if (u != null)
+            {
+                this.context.Add
+                HttpContext.Session.SetObject("theUser", adult);
+                Response.StatusCode = (int)System.Net.HttpStatusCode.OK;
+                //Important! Due to the Lazy Loading, the user will be returned with all of its contects!!
+                return adult;
+            }
+            else
+            {
+                Response.StatusCode = (int)System.Net.HttpStatusCode.Forbidden;
+                return null;
+            }
         }
+
 
         [Route("IsUserNameExist")]
         [HttpGet]
@@ -67,37 +106,39 @@ namespace EcoCareServer.Controllers
 
         }
 
-        //[Route("Login")]
-        //[HttpGet]
-        //public User Login([FromQuery] string email, [FromQuery] string pass)
-        //{
-        //    User user = context.Login(email, pass);
+        [Route("Login")]
+        [HttpGet]
+        public User Login([FromQuery] string email, [FromQuery] string pass)
+        {
+            User user = context.Login(email, pass);
 
-        //    try
-        //    {
-        //        //Check user name and password
-        //        if (user != null)
-        //        {
-        //            HttpContext.Session.SetObject("theUser", user);
+            try
+            {
+                //Check user name and password
+                if (user != null)
+                {
+                    HttpContext.Session.SetObject("theUser", user);
 
-        //            Response.StatusCode = (int)System.Net.HttpStatusCode.OK;
+                    Response.StatusCode = (int)System.Net.HttpStatusCode.OK;
 
-        //            //Important! Due to the Lazy Loading, the user will be returned with all of its contects!!
-        //            return user;
-        //        }
+                    //Important! Due to the Lazy Loading, the user will be returned with all of its contects!!
+                    return user;
+                }
 
 
-        //        else
-        //        {
+                else
+                {
 
-        //            Response.StatusCode = (int)System.Net.HttpStatusCode.Forbidden;
-        //            return null;
-        //        }
-        //    }
-        //    catch(Exception e)
-        //    {
-        //        Console.WriteLine(e);
-        //    }
-        //}
+                    Response.StatusCode = (int)System.Net.HttpStatusCode.Forbidden;
+                    return null;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            return null;
+        }
+
     }
 }
