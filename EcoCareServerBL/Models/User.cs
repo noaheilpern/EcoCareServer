@@ -27,5 +27,8 @@ namespace EcoCareServerBL.Models
         [StringLength(1)]
         public string LastName { get; set; }
         public bool IsAdmin { get; set; }
+
+        [InverseProperty("UserNameNavigation")]
+        public virtual RegularUser RegularUser { get; set; }
     }
 }

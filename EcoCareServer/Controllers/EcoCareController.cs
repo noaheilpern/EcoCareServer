@@ -24,46 +24,46 @@ namespace EcoCareServer.Controllers
         [Route("RegisterUser")]
         [HttpPost]
 
-        public User RegisterUser([FromBody] RegularUser u)
-        {
-            RegularUser user = new RegularUser()
-            {
-                Email = u.Email,
-                UserName = u.UserName,
-                Pass = u.Pass,
-                FirstName = u.FirstName,
-                LastName = u.LastName,
-                Birthday = u.Birthday,
-                Country = u.Country,
-                PeopleAtTheHousehold = u.PeopleAtTheHousehold,
-                LastElectricityBill = u.LastElectricityBill,
-                DistanceToWork = u.DistanceToWork,
-                IsAdmin = u.IsAdmin,
-                Transportation = u.Transportation, 
-                Vegetarian = u.Vegetarian, 
-                VeganRareMeat = u.VeganRareMeat, 
-                InitialMeatsMeals = u.InitialMeatsMeals,  
+        //public User RegisterUser([FromBody] RegularUser u)
+        //{
+        //    RegularUser user = new RegularUser()
+        //    {
+        //        Email = (User)u.Email,
+        //        UserName = u.UserName,
+        //        Pass = u.Pass,
+        //        FirstName = u.FirstName,
+        //        LastName = u.LastName,
+        //        Birthday = u.Birthday,
+        //        Country = u.Country,
+        //        PeopleAtTheHousehold = u.PeopleAtTheHousehold,
+        //        LastElectricityBill = u.LastElectricityBill,
+        //        DistanceToWork = u.DistanceToWork,
+        //        IsAdmin = u.IsAdmin,
+        //        Transportation = u.Transportation,
+        //        Vegetarian = u.Vegetarian,
+        //        VeganRareMeat = u.VeganRareMeat,
+        //        InitialMeatsMeals = u.InitialMeatsMeals,
 
 
 
-            };
+        //    };
 
-            
-            //Check user name and password
-            if (u != null)
-            {
-                this.context.AddRegularUser(u);
-                HttpContext.Session.SetObject("theUser", u);
-                Response.StatusCode = (int)System.Net.HttpStatusCode.OK;
-                //Important! Due to the Lazy Loading, the user will be returned with all of its contects!!
-                return u;
-            }
-            else
-            {
-                Response.StatusCode = (int)System.Net.HttpStatusCode.Forbidden;
-                return null;
-            }
-        }
+
+        //    //Check user name and password
+        //    if (u != null)
+        //    {
+        //        this.context.AddRegularUser(u);
+        //        HttpContext.Session.SetObject("theUser", u);
+        //        Response.StatusCode = (int)System.Net.HttpStatusCode.OK;
+        //        //Important! Due to the Lazy Loading, the user will be returned with all of its contects!!
+        //        return u;
+        //    }
+        //    else
+        //    {
+        //        Response.StatusCode = (int)System.Net.HttpStatusCode.Forbidden;
+        //        return null;
+        //    }
+        //}
 
 
         [Route("IsUserNameExist")]

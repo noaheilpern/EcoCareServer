@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace EcoCareServerBL.Models
 {
     [Table("RegularUser")]
-    public partial class RegularUser: User
+    public partial class RegularUser
     {
         public RegularUser()
         {
@@ -36,6 +36,9 @@ namespace EcoCareServerBL.Models
         public double LastElectricityBill { get; set; }
         public int PeopleAtTheHousehold { get; set; }
 
+        [ForeignKey(nameof(UserName))]
+        [InverseProperty(nameof(User.RegularUser))]
+        public virtual User UserNameNavigation { get; set; }
         [InverseProperty(nameof(Goal.UserNameNavigation))]
         public virtual ICollection<Goal> Goals { get; set; }
         [InverseProperty(nameof(Sale.BuyerUserNameNavigation))]
