@@ -1,22 +1,14 @@
-﻿Use master
+﻿
+Use master
+
+
 Create Database EcoCareDB
 Go
 
 Use EcoCareDB
 Go
 
-CREATE TABLE RegularUser(
-    UserName nvarchar primary key not null,
-    Birthday date not null,
-    Country nvarchar not null,
-    InitialMeatsMeals int not null,
-    VeganRareMeat bit not null,
-    Vegetarian bit not null,
-    Transportation nvarchar not null,
-    DistanceToWork float not null,
-    LastElectricityBill float not null,
-    PeopleAtTheHousehold int not null,
-);
+
 
 CREATE TABLE Product(
     Title nvarchar not null,
@@ -36,6 +28,20 @@ CREATE TABLE Users(
     LastName nvarchar not null,
     IsAdmin bit not null,
     CONSTRAINT UC_Email UNIQUE(Email)
+
+);
+
+CREATE TABLE RegularUser(
+    UserName nvarchar primary key foreign key references Users(UserName) not null,
+    Birthday date not null,
+    Country nvarchar not null,
+    InitialMeatsMeals int not null,
+    VeganRareMeat bit not null,
+    Vegetarian bit not null,
+    Transportation nvarchar not null,
+    DistanceToWork float not null,
+    LastElectricityBill float not null,
+    PeopleAtTheHousehold int not null,
 
 );
 
