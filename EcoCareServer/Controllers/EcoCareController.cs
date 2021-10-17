@@ -52,11 +52,11 @@ namespace EcoCareServer.Controllers
             //Check user name and password
             if (u != null)
             {
-                this.context.Add
-                HttpContext.Session.SetObject("theUser", adult);
+                this.context.AddRegularUser(u);
+                HttpContext.Session.SetObject("theUser", u);
                 Response.StatusCode = (int)System.Net.HttpStatusCode.OK;
                 //Important! Due to the Lazy Loading, the user will be returned with all of its contects!!
-                return adult;
+                return u;
             }
             else
             {
