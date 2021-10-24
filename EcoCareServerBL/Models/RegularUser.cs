@@ -15,7 +15,7 @@ namespace EcoCareServerBL.Models
         {
             Goals = new HashSet<Goal>();
             Sales = new HashSet<Sale>();
-            UsersData = new HashSet<UsersDatum>();
+            UsersData = new HashSet<UserData>();
         }
 
         [Key]
@@ -40,7 +40,7 @@ namespace EcoCareServerBL.Models
         public virtual ICollection<Goal> Goals { get; set; }
         [InverseProperty(nameof(Sale.BuyerUserNameNavigation))]
         public virtual ICollection<Sale> Sales { get; set; }
-        [InverseProperty(nameof(UsersDatum.UserNameNavigation))]
-        public virtual ICollection<UsersDatum> UsersData { get; set; }
+        [InverseProperty(nameof(UserData.UserNameNavigation))]
+        public virtual ICollection<UserData> UsersData { get; set; }
     }
 }

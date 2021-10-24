@@ -23,7 +23,7 @@ namespace EcoCareServerBL.Models
         public virtual DbSet<Sale> Sales { get; set; }
         public virtual DbSet<Seller> Sellers { get; set; }
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<UsersDatum> UsersData { get; set; }
+        public virtual DbSet<UserData> UsersData { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -175,7 +175,7 @@ namespace EcoCareServerBL.Models
                     .HasMaxLength(1);
             });
 
-            modelBuilder.Entity<UsersDatum>(entity =>
+            modelBuilder.Entity<UserData>(entity =>
             {
                 entity.HasKey(e => e.DateT)
                     .HasName("PK__UsersDat__BFFD8573E6043F1E");
