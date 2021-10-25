@@ -78,29 +78,13 @@ CREATE TABLE Goals(
 
 USE [EcoCareDB]
 GO
-SELECT * FROM RegularUser
-INSERT INTO [dbo].[RegularUser]
-           ([UserName]
-           ,[Birthday]
-           ,[Country]
-           ,[InitialMeatsMeals]
-           ,[VeganRareMeat]
-           ,[Vegetarian]
-           ,[Transportation]
-           ,[DistanceToWork]
-           ,[LastElectricityBill]
-           ,[PeopleAtTheHousehold])
-     VALUES
-           ('l'
-           ,'2016-08-27'
-           ,'Israel'
-           ,'7'
-           ,'0'
+INSERT INTO Users VALUES('noa', 'noa@gmail.com', '123456' , 'Noa', 'Heilpern', '0')
+INSERT into RegularUser Values('noa', '2016-08-27', 'Israel','7'
+			,'0'
            ,'0'
            ,'walking'
            ,'0.5'
            ,'234'
            ,'6' )
-GO
-
-
+SELECT * FROM RegularUser
+Go
