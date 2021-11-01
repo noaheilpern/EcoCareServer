@@ -12,19 +12,19 @@ namespace EcoCareServerBL.Models
     public partial class Seller
     {
         [Key]
-        [StringLength(1)]
+        [StringLength(255)]
         public string UserName { get; set; }
         [Required]
-        [StringLength(1)]
+        [StringLength(255)]
         public string PhoneNum { get; set; }
         [Required]
-        [StringLength(1)]
+        [StringLength(255)]
         public string Country { get; set; }
         [Required]
-        [StringLength(1)]
+        [StringLength(255)]
         public string City { get; set; }
         [Required]
-        [StringLength(1)]
+        [StringLength(255)]
         public string Street { get; set; }
     }
 }

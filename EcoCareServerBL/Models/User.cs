@@ -12,20 +12,23 @@ namespace EcoCareServerBL.Models
     public partial class User
     {
         [Key]
-        [StringLength(1)]
+        [StringLength(255)]
         public string UserName { get; set; }
         [Required]
-        [StringLength(1)]
+        [StringLength(255)]
         public string Email { get; set; }
         [Required]
-        [StringLength(1)]
+        [StringLength(255)]
         public string Pass { get; set; }
         [Required]
-        [StringLength(1)]
+        [StringLength(255)]
         public string FirstName { get; set; }
         [Required]
-        [StringLength(1)]
+        [StringLength(255)]
         public string LastName { get; set; }
         public bool IsAdmin { get; set; }
+
+        [InverseProperty("UserNameNavigation")]
+        public virtual RegularUser RegularUser { get; set; }
     }
 }

@@ -87,8 +87,12 @@ namespace EcoCareServer.Controllers
             }
         }
 
-
-
+        [Route("GetCountries")]
+        [HttpGet]
+        public List<Country> GetCountries()
+        {
+            return context.Countries.ToList();  
+        }
         [Route("IsUserNameExist")]
         [HttpGet]
         public Boolean IsUserNameExist([FromQuery] string userName)

@@ -8,19 +8,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EcoCareServerBL.Models
 {
-    public partial class Goal
+    public partial class UsersDatum
     {
+        public double DistanceToWork { get; set; }
+        public double ElecticityUsagePerWeek { get; set; }
+        public int MeatsMeals { get; set; }
         [Key]
-        [Column(TypeName = "date")]
-        public DateTime DateT { get; set; }
-        [Column("Goal")]
-        public int Goal1 { get; set; }
+        public int DateT { get; set; }
         [Required]
         [StringLength(255)]
         public string UserName { get; set; }
 
         [ForeignKey(nameof(UserName))]
-        [InverseProperty(nameof(RegularUser.Goals))]
+        [InverseProperty(nameof(RegularUser.UsersData))]
         public virtual RegularUser UserNameNavigation { get; set; }
     }
 }

@@ -11,7 +11,7 @@ namespace EcoCareServerBL.Models
     public partial class Sale
     {
         [Required]
-        [StringLength(1)]
+        [StringLength(255)]
         public string BuyerUserName { get; set; }
         public int ProductId { get; set; }
         public int DateBought { get; set; }

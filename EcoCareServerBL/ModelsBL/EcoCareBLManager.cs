@@ -10,7 +10,7 @@ namespace EcoCareServerBL.ModelsBL
     {
         /**
          * 
-         *Scaffold-DbContext "Server = localhost\SQLEXPRESS; Database=EcoCareDB; Trusted_Connection=true" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -Context MenUContext –DataAnnotations -force
+         *Scaffold-DbContext "Server = localhost\SQLEXPRESS; Database=EcoCareDB; Trusted_Connection=true" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -Context EcoCareDBContext –DataAnnotations -force
 
          *
          */

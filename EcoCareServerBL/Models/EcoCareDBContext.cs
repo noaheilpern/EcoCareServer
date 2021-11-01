@@ -17,20 +17,21 @@ namespace EcoCareServerBL.Models
         {
         }
 
+        public virtual DbSet<Country> Countries { get; set; }
         public virtual DbSet<Goal> Goals { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<RegularUser> RegularUsers { get; set; }
         public virtual DbSet<Sale> Sales { get; set; }
         public virtual DbSet<Seller> Sellers { get; set; }
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<UserData> UsersData { get; set; }
+        public virtual DbSet<UsersDatum> UsersData { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=localhost\\sqlexpress;Database=EcoCareDB;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server = localhost\\SQLEXPRESS; Database=EcoCareDB; Trusted_Connection=true");
             }
         }
 
@@ -38,159 +39,82 @@ namespace EcoCareServerBL.Models
         {
             modelBuilder.HasAnnotation("Relational:Collation", "Hebrew_CI_AS");
 
+            modelBuilder.Entity<Country>(entity =>
+            {
+                entity.HasKey(e => e.Country1)
+                    .HasName("PK__Countrie__067B3008413A9D8E");
+            });
+
             modelBuilder.Entity<Goal>(entity =>
             {
                 entity.HasKey(e => e.DateT)
-                    .HasName("PK__Goals__BFFD85737545E700");
-
-                entity.Property(e => e.DateT).HasColumnType("date");
-
-                entity.Property(e => e.Goal1).HasColumnName("Goal");
-
-                entity.Property(e => e.UserName)
-                    .IsRequired()
-                    .HasMaxLength(1);
+                    .HasName("PK__Goals__BFFD85735D6ABD0C");
 
                 entity.HasOne(d => d.UserNameNavigation)
                     .WithMany(p => p.Goals)
                     .HasForeignKey(d => d.UserName)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Goals__UserName__45F365D3");
+                    .HasConstraintName("FK__Goals__UserName__34C8D9D1");
             });
 
             modelBuilder.Entity<Product>(entity =>
             {
-                entity.ToTable("Product");
-
                 entity.Property(e => e.ProductId).ValueGeneratedNever();
-
-                entity.Property(e => e.Description)
-                    .IsRequired()
-                    .HasMaxLength(1);
-
-                entity.Property(e => e.ImageSource)
-                    .IsRequired()
-                    .HasMaxLength(1);
-
-                entity.Property(e => e.SellersUsername)
-                    .IsRequired()
-                    .HasMaxLength(1);
-
-                entity.Property(e => e.Title)
-                    .IsRequired()
-                    .HasMaxLength(1);
             });
 
             modelBuilder.Entity<RegularUser>(entity =>
             {
                 entity.HasKey(e => e.UserName)
-                    .HasName("PK__RegularU__C9F284571B8F493E");
+                    .HasName("PK__RegularU__C9F284570CE67C41");
 
-                entity.ToTable("RegularUser");
-
-                entity.Property(e => e.UserName).HasMaxLength(1);
-
-                entity.Property(e => e.Birthday).HasColumnType("date");
-
-                entity.Property(e => e.Country)
-                    .IsRequired()
-                    .HasMaxLength(1);
-
-                entity.Property(e => e.Transportation)
-                    .IsRequired()
-                    .HasMaxLength(1);
+                entity.HasOne(d => d.UserNameNavigation)
+                    .WithOne(p => p.RegularUser)
+                    .HasForeignKey<RegularUser>(d => d.UserName)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__RegularUs__UserN__29572725");
             });
 
             modelBuilder.Entity<Sale>(entity =>
             {
                 entity.Property(e => e.SaleId).ValueGeneratedNever();
 
-                entity.Property(e => e.BuyerUserName)
-                    .IsRequired()
-                    .HasMaxLength(1);
-
                 entity.HasOne(d => d.BuyerUserNameNavigation)
                     .WithMany(p => p.Sales)
                     .HasForeignKey(d => d.BuyerUserName)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Sales__BuyerUser__3F466844");
+                    .HasConstraintName("FK__Sales__BuyerUser__2E1BDC42");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.Sales)
                     .HasForeignKey(d => d.ProductId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Sales__ProductId__403A8C7D");
+                    .HasConstraintName("FK__Sales__ProductId__2F10007B");
             });
 
             modelBuilder.Entity<Seller>(entity =>
             {
                 entity.HasKey(e => e.UserName)
-                    .HasName("PK__Seller__C9F28457E957F8AB");
-
-                entity.ToTable("Seller");
-
-                entity.Property(e => e.UserName).HasMaxLength(1);
-
-                entity.Property(e => e.City)
-                    .IsRequired()
-                    .HasMaxLength(1);
-
-                entity.Property(e => e.Country)
-                    .IsRequired()
-                    .HasMaxLength(1);
-
-                entity.Property(e => e.PhoneNum)
-                    .IsRequired()
-                    .HasMaxLength(1);
-
-                entity.Property(e => e.Street)
-                    .IsRequired()
-                    .HasMaxLength(1);
+                    .HasName("PK__Seller__C9F284573A07DE0C");
             });
 
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasKey(e => e.UserName)
-                    .HasName("PK__Users__C9F28457CB8FAEB1");
-
-                entity.HasIndex(e => e.Email, "UC_Email")
-                    .IsUnique();
-
-                entity.Property(e => e.UserName).HasMaxLength(1);
-
-                entity.Property(e => e.Email)
-                    .IsRequired()
-                    .HasMaxLength(1);
-
-                entity.Property(e => e.FirstName)
-                    .IsRequired()
-                    .HasMaxLength(1);
-
-                entity.Property(e => e.LastName)
-                    .IsRequired()
-                    .HasMaxLength(1);
-
-                entity.Property(e => e.Pass)
-                    .IsRequired()
-                    .HasMaxLength(1);
+                    .HasName("PK__Users__C9F28457BB9C3590");
             });
 
-            modelBuilder.Entity<UserData>(entity =>
+            modelBuilder.Entity<UsersDatum>(entity =>
             {
                 entity.HasKey(e => e.DateT)
-                    .HasName("PK__UsersDat__BFFD8573E6043F1E");
+                    .HasName("PK__UsersDat__BFFD8573111AACBA");
 
                 entity.Property(e => e.DateT).ValueGeneratedNever();
-
-                entity.Property(e => e.UserName)
-                    .IsRequired()
-                    .HasMaxLength(1);
 
                 entity.HasOne(d => d.UserNameNavigation)
                     .WithMany(p => p.UsersData)
                     .HasForeignKey(d => d.UserName)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__UsersData__UserN__4316F928");
+                    .HasConstraintName("FK__UsersData__UserN__31EC6D26");
             });
 
             OnModelCreatingPartial(modelBuilder);

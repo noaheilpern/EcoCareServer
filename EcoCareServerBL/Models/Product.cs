@@ -17,18 +17,18 @@ namespace EcoCareServerBL.Models
         }
 
         [Required]
-        [StringLength(1)]
+        [StringLength(255)]
         public string Title { get; set; }
         public int Price { get; set; }
         [Required]
-        [StringLength(1)]
+        [StringLength(255)]
         public string Description { get; set; }
         [Required]
-        [StringLength(1)]
+        [StringLength(255)]
         public string ImageSource { get; set; }
         public bool Active { get; set; }
         [Required]
-        [StringLength(1)]
+        [StringLength(255)]
         public string SellersUsername { get; set; }
         [Key]
         public int ProductId { get; set; }
