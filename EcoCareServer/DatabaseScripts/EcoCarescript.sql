@@ -248,9 +248,9 @@ Go
 			insert into Countries values ('Guinea','0.18')
 			insert into Countries values ('Malawi','0.11')
 			insert into Countries values ('Fiji','1.95')
-			insert into Countries values ('Bhutan,2.28')
-			insert into Countries values ('Chad,0.11')
-			insert into Countries values ('Mali,0.09')
+			insert into Countries values ('Bhutan','2.28')
+			insert into Countries values ('Chad','0.11')
+			insert into Countries values ('Mali','0.09')
 			insert into Countries values ('Barbados','5.39')
 			insert into Countries values ('Djibouti','1.62')
 			insert into Countries values ('French Guiana','5.5')
@@ -301,5 +301,4 @@ Go
 			insert into Countries values ('Saint Pierre & Miquelon','1.49')
 			insert into Countries values ('Faeroe Islands','0.04')
 			insert into Countries values ('Greenland','0.03')
-
 
