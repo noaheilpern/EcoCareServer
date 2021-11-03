@@ -11,9 +11,8 @@ namespace EcoCareServerBL.Models
     public partial class Country
     {
         [Key]
-        [Column("Country")]
         [StringLength(255)]
-        public string Country1 { get; set; }
+        public string CountryName { get; set; }
         [Column("EF")]
         public double Ef { get; set; }
     }

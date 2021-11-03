@@ -76,7 +76,7 @@ CREATE TABLE Goals(
 );
 
 CREATE TABLE Countries(
-	Country nvarchar(255) primary key not null, 
+	CountryName nvarchar(255) primary key not null, 
 	EF float not null, 
 	);
 USE [EcoCareDB]
