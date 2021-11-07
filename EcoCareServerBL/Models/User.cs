@@ -30,5 +30,7 @@ namespace EcoCareServerBL.Models
 
         [InverseProperty("UserNameNavigation")]
         public virtual RegularUser RegularUser { get; set; }
+        [InverseProperty("UserNameNavigation")]
+        public virtual Seller Seller { get; set; }
     }
 }

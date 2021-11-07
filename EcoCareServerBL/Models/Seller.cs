@@ -26,5 +26,9 @@ namespace EcoCareServerBL.Models
         [Required]
         [StringLength(255)]
         public string Street { get; set; }
+
+        [ForeignKey(nameof(UserName))]
+        [InverseProperty(nameof(User.Seller))]
+        public virtual User UserNameNavigation { get; set; }
     }
 }

@@ -46,7 +46,7 @@ CREATE TABLE RegularUser(
 );
 
 CREATE TABLE Seller(
-    UserName nvarchar(255) primary key not null,
+    UserName nvarchar(255) primary key foreign key references Users(UserName) not null,
     PhoneNum nvarchar(255) not null,
     Country nvarchar(255) not null,
     City nvarchar(255) not null,
