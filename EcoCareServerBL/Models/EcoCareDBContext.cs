@@ -42,13 +42,13 @@ namespace EcoCareServerBL.Models
             modelBuilder.Entity<Country>(entity =>
             {
                 entity.HasKey(e => e.CountryName)
-                    .HasName("PK__Countrie__E056F20035298291");
+                    .HasName("PK__Countrie__E056F20060F15944");
             });
 
             modelBuilder.Entity<Goal>(entity =>
             {
                 entity.HasKey(e => e.DateT)
-                    .HasName("PK__Goals__BFFD85734B01DB8E");
+                    .HasName("PK__Goals__BFFD8573A306DA07");
 
                 entity.HasOne(d => d.UserNameNavigation)
                     .WithMany(p => p.Goals)
@@ -65,7 +65,7 @@ namespace EcoCareServerBL.Models
             modelBuilder.Entity<RegularUser>(entity =>
             {
                 entity.HasKey(e => e.UserName)
-                    .HasName("PK__RegularU__C9F284579C6CB0A2");
+                    .HasName("PK__RegularU__C9F2845772A3A15E");
 
                 entity.HasOne(d => d.UserNameNavigation)
                     .WithOne(p => p.RegularUser)
@@ -94,19 +94,19 @@ namespace EcoCareServerBL.Models
             modelBuilder.Entity<Seller>(entity =>
             {
                 entity.HasKey(e => e.UserName)
-                    .HasName("PK__Seller__C9F284574A05CADD");
+                    .HasName("PK__Seller__C9F284578F42363B");
             });
 
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasKey(e => e.UserName)
-                    .HasName("PK__Users__C9F284574F7393F7");
+                    .HasName("PK__Users__C9F28457462B6E89");
             });
 
             modelBuilder.Entity<UsersDatum>(entity =>
             {
                 entity.HasKey(e => e.DateT)
-                    .HasName("PK__UsersDat__BFFD8573F237B122");
+                    .HasName("PK__UsersDat__BFFD85737C794EB1");
 
                 entity.Property(e => e.DateT).ValueGeneratedNever();
 
