@@ -55,6 +55,7 @@ namespace EcoCareServer.Controllers
                 this.context.AddRegularUser(u);
                 HttpContext.Session.SetObject("theUser", u);
                 Response.StatusCode = (int)System.Net.HttpStatusCode.OK;
+                context.SaveChanges(); 
                 //Important! Due to the Lazy Loading, the user will be returned with all of its contects!!
                 return u;
             }
@@ -77,6 +78,7 @@ namespace EcoCareServer.Controllers
                 this.context.AddSeller(u);
                 HttpContext.Session.SetObject("theUser", u);
                 Response.StatusCode = (int)System.Net.HttpStatusCode.OK;
+                context.SaveChanges(); 
                 //Important! Due to the Lazy Loading, the user will be returned with all of its contects!!
                 return u;
             }
