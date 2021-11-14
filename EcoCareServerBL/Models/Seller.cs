@@ -20,12 +20,6 @@ namespace EcoCareServerBL.Models
         [Required]
         [StringLength(255)]
         public string Country { get; set; }
-        [Required]
-        [StringLength(255)]
-        public string City { get; set; }
-        [Required]
-        [StringLength(255)]
-        public string Street { get; set; }
 
         [ForeignKey(nameof(UserName))]
         [InverseProperty(nameof(User.Seller))]

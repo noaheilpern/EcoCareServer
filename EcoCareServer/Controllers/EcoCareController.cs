@@ -26,30 +26,7 @@ namespace EcoCareServer.Controllers
 
         public RegularUser RegisterUser([FromBody] RegularUser u)
         {
-            //RegularUser user = new RegularUser()
-            //{
-            //    Email = (User)u.Email,
-            //    UserName = u.UserName,
-            //    Pass = u.Pass,
-            //    FirstName = u.FirstName,
-            //    LastName = u.LastName,
-            //    Birthday = u.Birthday,
-            //    Country = u.Country,
-            //    PeopleAtTheHousehold = u.PeopleAtTheHousehold,
-            //    LastElectricityBill = u.LastElectricityBill,
-            //    DistanceToWork = u.DistanceToWork,
-            //    IsAdmin = u.IsAdmin,
-            //    Transportation = u.Transportation,
-            //    Vegetarian = u.Vegetarian,
-            //    VeganRareMeat = u.VeganRareMeat,
-            //    InitialMeatsMeals = u.InitialMeatsMeals,
-
-
-
-            //};
-
-
-            //Check user name and password
+            
             if (u != null)
             {
                 this.context.AddRegularUser(u);

@@ -42,13 +42,13 @@ namespace EcoCareServerBL.Models
             modelBuilder.Entity<Country>(entity =>
             {
                 entity.HasKey(e => e.CountryName)
-                    .HasName("PK__Countrie__E056F20045161033");
+                    .HasName("PK__Countrie__E056F200371E1E3E");
             });
 
             modelBuilder.Entity<Goal>(entity =>
             {
                 entity.HasKey(e => e.DateT)
-                    .HasName("PK__Goals__BFFD85732B3B1662");
+                    .HasName("PK__Goals__BFFD8573008EA977");
 
                 entity.HasOne(d => d.UserNameNavigation)
                     .WithMany(p => p.Goals)
@@ -65,7 +65,7 @@ namespace EcoCareServerBL.Models
             modelBuilder.Entity<RegularUser>(entity =>
             {
                 entity.HasKey(e => e.UserName)
-                    .HasName("PK__RegularU__C9F284578E5ABF4E");
+                    .HasName("PK__RegularU__C9F28457740D7E7F");
 
                 entity.HasOne(d => d.UserNameNavigation)
                     .WithOne(p => p.RegularUser)
@@ -94,7 +94,7 @@ namespace EcoCareServerBL.Models
             modelBuilder.Entity<Seller>(entity =>
             {
                 entity.HasKey(e => e.UserName)
-                    .HasName("PK__Seller__C9F284577772693F");
+                    .HasName("PK__Seller__C9F28457FFA76D42");
 
                 entity.HasOne(d => d.UserNameNavigation)
                     .WithOne(p => p.Seller)
@@ -106,13 +106,13 @@ namespace EcoCareServerBL.Models
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasKey(e => e.UserName)
-                    .HasName("PK__Users__C9F28457D53EE57C");
+                    .HasName("PK__Users__C9F2845786A1B2CA");
             });
 
             modelBuilder.Entity<UsersDatum>(entity =>
             {
                 entity.HasKey(e => e.DateT)
-                    .HasName("PK__UsersDat__BFFD8573E01D7F83");
+                    .HasName("PK__UsersDat__BFFD857375823A10");
 
                 entity.Property(e => e.DateT).ValueGeneratedNever();
 
