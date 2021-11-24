@@ -70,7 +70,8 @@ namespace EcoCareServer.Controllers
         [HttpGet]
         public List<Country> GetCountries()
         {
-            return context.Countries.ToList();  
+            return context.Countries.ToList<Country>(); 
+            
         }
         [Route("IsUserNameExist")]
         [HttpGet]
