@@ -68,11 +68,14 @@ namespace EcoCareServer.Controllers
 
         [Route("GetCountries")]
         [HttpGet]
+
         public List<Country> GetCountries()
         {
             return context.Countries.ToList<Country>(); 
             
         }
+
+
         [Route("IsUserNameExist")]
         [HttpGet]
         public Boolean IsUserNameExist([FromQuery] string userName)
@@ -93,7 +96,89 @@ namespace EcoCareServer.Controllers
             
         }
 
-        [Route("IsEmailExist")]
+        [Route("IsRegularUser")]
+        [HttpGet]
+
+        public Boolean IsRegularUser([FromQuery] string userName)
+        {
+            //If username is null the request is bad
+            if (userName == null)
+            {
+                Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
+                return false;
+            }
+            foreach (RegularUser u in context.RegularUsers)
+            {
+                if (u.UserName.Equals(userName))
+                    return true;
+            }
+            return false;
+
+        }
+        [Route ("GetUserData")]
+        [HttpGet]
+
+        public User GetUserData([FromQuery] string userName)
+        {
+           //If username is null the request is bad
+                if (userName == null)
+                {
+                    Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
+                    return null;
+                }
+                foreach (User u in context.Users)
+                {
+                    if (u.UserName.Equals(userName))
+                        return u;
+                }
+                return null;
+
+        }
+        
+
+    [Route("GetSellerData")]
+    [HttpGet]
+
+    public Seller GetSellerData([FromQuery] string userName)
+    {
+        //If username is null the request is bad
+        if (userName == null)
+        {
+            Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
+            return null;
+        }
+        foreach (Seller s in context.Sellers)
+        {
+            if (s.UserName.Equals(userName))
+                return s;
+        }
+        return null;
+
+    }
+
+        [Route("GetRegularUserData")]
+        [HttpGet]
+
+        public RegularUser GetRegularUserData([FromQuery] string userName)
+        {
+            //If username is null the request is bad
+            if (userName == null)
+            {
+                Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
+                return null;
+            }
+            foreach (RegularUser u in context.RegularUsers)
+            {
+                if (u.UserName.Equals(userName))
+                    return u;
+            }
+            return null;
+
+        }
+    
+
+
+    [Route("IsEmailExist")]
         [HttpGet]
         public Boolean IsEmailExist([FromQuery] string email)
         {
