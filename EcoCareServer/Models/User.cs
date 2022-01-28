@@ -27,6 +27,9 @@ namespace EcoCareServer.Models
         [StringLength(255)]
         public string LastName { get; set; }
         public bool IsAdmin { get; set; }
+        [Required]
+        [StringLength(255)]
+        public string Country { get; set; }
 
         [InverseProperty("UserNameNavigation")]
         public virtual RegularUser RegularUser { get; set; }

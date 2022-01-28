@@ -27,14 +27,15 @@ CREATE TABLE Users(
     FirstName nvarchar(255) not null,
     LastName nvarchar(255) not null,
     IsAdmin bit not null,
-    CONSTRAINT UC_Email UNIQUE(Email)
+    CONSTRAINT UC_Email UNIQUE(Email),
+	Country nvarchar(255) not null,
+
 
 );
 
 CREATE TABLE RegularUser(
     UserName nvarchar(255) primary key foreign key references Users(UserName) not null,
     Birthday date not null,
-    Country nvarchar(255) not null,
     InitialMeatsMeals int not null,
     VeganRareMeat bit not null,
     Vegetarian bit not null,
@@ -47,9 +48,7 @@ CREATE TABLE RegularUser(
 
 CREATE TABLE Seller(
     UserName nvarchar(255) primary key foreign key references Users(UserName) not null,
-    PhoneNum nvarchar(255) not null,
-    Country nvarchar(255) not null
-    
+    PhoneNum nvarchar(255) not null,    
 );
 
 CREATE TABLE Sales(
@@ -80,8 +79,8 @@ CREATE TABLE Countries(
 	);
 USE [EcoCareDB]
 GO
-INSERT INTO Users VALUES('noa', 'noa@gmail.com', '123456' , 'Noa', 'Heilpern', '0')
-INSERT into RegularUser Values('noa', '2016-08-27', 'Israel','7'
+INSERT INTO Users VALUES('noa', 'noa@gmail.com', '123456' , 'Noa', 'Heilpern', '0', 'Israel')
+INSERT into RegularUser Values('noa', '2016-08-27','7'
 			,'0'
            ,'0'
            ,'walking'
