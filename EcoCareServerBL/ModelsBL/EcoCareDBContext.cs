@@ -27,5 +27,9 @@ namespace EcoCareServerBL.Models
 
             return user;
         }
+        public void Update(Seller s)
+        {
+            this.Sellers.Update(s);
+        }
     }
 }

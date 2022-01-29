@@ -19,7 +19,13 @@ namespace EcoCareServer.Controllers
             this.context = context;
         }
         #endregion
+        [Route("UpdateRecord")]
+        [HttpPost]
 
+        public T UpdateUser<T>([FromBody] )
+        {
+            this.context.Add
+        }
 
         [Route("RegisterUser")]
         [HttpPost]
