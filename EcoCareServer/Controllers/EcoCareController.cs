@@ -19,12 +19,49 @@ namespace EcoCareServer.Controllers
             this.context = context;
         }
         #endregion
-        [Route("UpdateRecord")]
+
+        [Route("UpdateSeller")]
         [HttpPost]
 
-        public T UpdateUser<T>([FromBody] )
+        public bool UpdateSeller([FromBody] Seller s)
         {
-            this.context.Add
+            if (s != null)
+            {
+                this.context.UpdateSeller(s);
+                HttpContext.Session.SetObject("theUser", s);
+                Response.StatusCode = (int)System.Net.HttpStatusCode.OK;
+                context.SaveChanges();
+                //Important! Due to the Lazy Loading, the user will be returned with all of its contects!!
+                return true;
+            }
+            else
+            {
+                Response.StatusCode = (int)System.Net.HttpStatusCode.Forbidden;
+                return false;
+            }
+        }
+
+
+
+        [Route("UpdateUser")]
+        [HttpPost]
+
+        public bool UpdateUser([FromBody] RegularUser ru)
+        {
+            if (ru != null)
+            {
+                this.context.UpdateUser(ru);
+                HttpContext.Session.SetObject("theUser", ru);
+                Response.StatusCode = (int)System.Net.HttpStatusCode.OK;
+                context.SaveChanges();
+                //Important! Due to the Lazy Loading, the user will be returned with all of its contects!!
+                return true;
+            }
+            else
+            {
+                Response.StatusCode = (int)System.Net.HttpStatusCode.Forbidden;
+                return false;
+            }
         }
 
         [Route("RegisterUser")]
