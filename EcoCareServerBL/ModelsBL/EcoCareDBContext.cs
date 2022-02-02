@@ -30,12 +30,10 @@ namespace EcoCareServerBL.Models
         public void UpdateSeller(Seller s)
         {
             this.Sellers.Update(s);
-            this.Users.Update(s.UserNameNavigation);
             this.SaveChanges(); 
         }
         public void UpdateUser(RegularUser ru)
         {
-            this.RegularUsers.Update(ru);
             this.RegularUsers.Update(ru);
             this.SaveChanges();
         }
