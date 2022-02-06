@@ -25,7 +25,6 @@ namespace EcoCareServerBL.Models
         public DateTime Birthday { get; set; }
         [Required]
         [StringLength(255)]
-        public string Country { get; set; }
         public int InitialMeatsMeals { get; set; }
         public bool VeganRareMeat { get; set; }
         public bool Vegetarian { get; set; }
