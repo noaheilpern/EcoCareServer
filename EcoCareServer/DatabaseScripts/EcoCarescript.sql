@@ -300,3 +300,5 @@ Go
 			insert into Countries values ('Faeroe Islands','0.04')
 			insert into Countries values ('Greenland','0.03')
 
+ALTER TABLE RegularUser
+ADD Stars int;
