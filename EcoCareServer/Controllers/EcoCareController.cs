@@ -71,8 +71,8 @@ namespace EcoCareServer.Controllers
         {
             if(data != null)
             {
-                this.context.AddData(value, category);
-                HttpContext.Session.SetObject("theData", value);
+                this.context.AddData(data);
+                HttpContext.Session.SetObject("theData", data);
                 Response.StatusCode = (int)System.Net.HttpStatusCode.OK;
                 context.SaveChanges();
                 return true;
