@@ -11,6 +11,7 @@ namespace EcoCareServer.Models
         public EcoCareDBContext()
         {
         }
+
         public EcoCareDBContext(DbContextOptions<EcoCareDBContext> options)
             : base(options)
         {
@@ -42,19 +43,19 @@ namespace EcoCareServer.Models
             modelBuilder.Entity<Country>(entity =>
             {
                 entity.HasKey(e => e.CountryName)
-                    .HasName("PK__Countrie__E056F200B0B6CA34");
+                    .HasName("PK__Countrie__E056F200E35F048B");
             });
 
             modelBuilder.Entity<DatasCategory>(entity =>
             {
                 entity.HasKey(e => e.CategoryId)
-                    .HasName("PK__DatasCat__19093A0B15451248");
+                    .HasName("PK__DatasCat__19093A0B4900C31C");
             });
 
             modelBuilder.Entity<Goal>(entity =>
             {
                 entity.HasKey(e => e.DateT)
-                    .HasName("PK__Goals__BFFD8573F71F2061");
+                    .HasName("PK__Goals__BFFD8573AC48F14D");
 
                 entity.HasOne(d => d.UserNameNavigation)
                     .WithMany(p => p.Goals)
@@ -71,7 +72,7 @@ namespace EcoCareServer.Models
             modelBuilder.Entity<RegularUser>(entity =>
             {
                 entity.HasKey(e => e.UserName)
-                    .HasName("PK__RegularU__C9F28457D6760617");
+                    .HasName("PK__RegularU__C9F284572DACC962");
 
                 entity.HasOne(d => d.UserNameNavigation)
                     .WithOne(p => p.RegularUser)
@@ -100,7 +101,7 @@ namespace EcoCareServer.Models
             modelBuilder.Entity<Seller>(entity =>
             {
                 entity.HasKey(e => e.UserName)
-                    .HasName("PK__Seller__C9F284577C1ED58B");
+                    .HasName("PK__Seller__C9F2845783B75029");
 
                 entity.HasOne(d => d.UserNameNavigation)
                     .WithOne(p => p.Seller)
@@ -112,15 +113,13 @@ namespace EcoCareServer.Models
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasKey(e => e.UserName)
-                    .HasName("PK__Users__C9F28457E271D791");
+                    .HasName("PK__Users__C9F2845752F47886");
             });
 
             modelBuilder.Entity<UsersDatum>(entity =>
             {
-                entity.HasKey(e => e.DateT)
-                    .HasName("PK__UsersDat__BFFD8573435E9DBB");
-
-                entity.Property(e => e.DateT).ValueGeneratedNever();
+                entity.HasKey(e => new { e.DateT, e.CategoryId, e.UserName })
+                    .HasName("PK__UsersDat__48A4E457337274E1");
 
                 entity.HasOne(d => d.UserNameNavigation)
                     .WithMany(p => p.UsersData)

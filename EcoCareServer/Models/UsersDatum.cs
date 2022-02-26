@@ -10,13 +10,13 @@ namespace EcoCareServer.Models
 {
     public partial class UsersDatum
     {
-        public int CategoryId { get; set; }
-        public double DistanceToWork { get; set; }
-        public double ElecticityUsagePerWeek { get; set; }
-        public int MeatsMeals { get; set; }
         [Key]
-        public int DateT { get; set; }
-        [Required]
+        public int CategoryId { get; set; }
+        public double CategoryValue { get; set; }
+        [Key]
+        [Column(TypeName = "date")]
+        public DateTime DateT { get; set; }
+        [Key]
         [StringLength(255)]
         public string UserName { get; set; }
 

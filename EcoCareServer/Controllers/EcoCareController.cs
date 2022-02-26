@@ -63,12 +63,13 @@ namespace EcoCareServer.Controllers
                 return false;
             }
         }
+        
         [Route("AddData")]
         [HttpPost]
 
-        public bool AddUserData([FromQuery] double value, string category)
+        public bool AddUserData([FromBody] UsersDatum data)
         {
-            if(category != null)
+            if(data != null)
             {
                 this.context.AddData(value, category);
                 HttpContext.Session.SetObject("theData", value);
@@ -239,7 +240,18 @@ namespace EcoCareServer.Controllers
 
         }
     
-
+        [Route("GetCategoryId")]
+        [HttpGet]
+        public int GetCategoryId([FromQuery] string category)
+        {
+            if (category != null)
+            {
+                return context.DatasCategories
+                    .Where(d => d.CategoryName.Equals(category)).FirstOrDefault().CategoryId;
+            }
+            else
+                return - 1;
+        }
 
     [Route("IsEmailExist")]
         [HttpGet]

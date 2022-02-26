@@ -66,11 +66,10 @@ CREATE TABLE DatasCategories(
 
 CREATE TABLE UsersData(
 	CategoryId int not null,
-    DistanceToWork float not null,
-    ElecticityUsagePerWeek float not null,
-    MeatsMeals int not null,
-    DateT int primary key not null,
-    UserName nvarchar(255) foreign key references RegularUser not null
+	CategoryValue float not null,
+    DateT Date not null,
+    UserName nvarchar(255) references RegularUser not null,
+	primary key (DateT, CategoryId, UserName),
 );
 
 CREATE TABLE Goals(
