@@ -10,6 +10,7 @@ namespace EcoCareServer.Models
 {
     public partial class UsersDatum
     {
+        public int CategoryId { get; set; }
         public double DistanceToWork { get; set; }
         public double ElecticityUsagePerWeek { get; set; }
         public int MeatsMeals { get; set; }

@@ -63,6 +63,26 @@ namespace EcoCareServer.Controllers
                 return false;
             }
         }
+        [Route("AddData")]
+        [HttpPost]
+
+        public bool AddUserData([FromQuery] double value, string category)
+        {
+            if(category != null)
+            {
+                this.context.AddData(value, category);
+                HttpContext.Session.SetObject("theData", value);
+                Response.StatusCode = (int)System.Net.HttpStatusCode.OK;
+                context.SaveChanges();
+                return true;
+            }
+          
+            else
+            {
+                Response.StatusCode = (int)System.Net.HttpStatusCode.Forbidden;
+                return false;
+            }
+        }
 
         [Route("RegisterUser")]
         [HttpPost]

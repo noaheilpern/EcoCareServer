@@ -10,6 +10,19 @@ namespace EcoCareServerBL.Models
 {
     public partial class EcoCareDBContext: DbContext
     {
+        public void AddData(double value, string categoryName)
+        {
+            int categoryId = this.DatasCategories.Where
+                (d => d.categoryName == categoryName).FirstOrDefault;
+            UserData userData = new UserData
+            {
+                DateT = DateTime.Today,
+                CategoryId = categoryId,
+                CategoryValue = value,
+            };
+            this.UsersData.Add(userData);
+            this.SaveChanges(); 
+        }
         public void AddRegularUser(RegularUser ru)
         {
             this.RegularUsers.Add(ru);

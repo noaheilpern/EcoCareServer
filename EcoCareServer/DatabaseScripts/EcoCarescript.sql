@@ -59,7 +59,13 @@ CREATE TABLE Sales(
     SaleId int primary key not null
 );
 
+CREATE TABLE DatasCategories(
+	CategoryName nvarchar(255) not null, 
+	CategoryId int identity(1,1) primary key not null,
+	);
+
 CREATE TABLE UsersData(
+	CategoryId int not null,
     DistanceToWork float not null,
     ElecticityUsagePerWeek float not null,
     MeatsMeals int not null,
@@ -79,6 +85,11 @@ CREATE TABLE Countries(
 	);
 USE [EcoCareDB]
 GO
+INSERT INTO DatasCategories Values('Meat_Meals')
+ INSERT INTO DatasCategories Values('Distance')
+  INSERT INTO DatasCategories Values('Electricity_Usage')
+
+
 INSERT INTO Users VALUES('noa', 'noa@gmail.com', '123456' , 'Noa', 'Heilpern', '0', 'Israel')
 INSERT into RegularUser Values('noa', '2016-08-27','7'
 			,'0'
@@ -302,3 +313,4 @@ Go
 
 ALTER TABLE RegularUser
 ADD Stars int;
+
