@@ -63,13 +63,13 @@ namespace EcoCareServer.Controllers
                 return false;
             }
         }
-        
+
         [Route("AddData")]
         [HttpPost]
 
         public bool AddUserData([FromBody] UsersDatum data)
         {
-            if(data != null)
+            if (data != null)
             {
                 this.context.AddData(data);
                 HttpContext.Session.SetObject("theData", data);
@@ -77,7 +77,7 @@ namespace EcoCareServer.Controllers
                 context.SaveChanges();
                 return true;
             }
-          
+
             else
             {
                 Response.StatusCode = (int)System.Net.HttpStatusCode.Forbidden;
@@ -90,13 +90,13 @@ namespace EcoCareServer.Controllers
 
         public RegularUser RegisterUser([FromBody] RegularUser u)
         {
-            
+
             if (u != null)
             {
                 this.context.AddRegularUser(u);
                 HttpContext.Session.SetObject("theUser", u);
                 Response.StatusCode = (int)System.Net.HttpStatusCode.OK;
-                context.SaveChanges(); 
+                context.SaveChanges();
                 //Important! Due to the Lazy Loading, the user will be returned with all of its contects!!
                 return u;
             }
@@ -119,7 +119,7 @@ namespace EcoCareServer.Controllers
                 this.context.AddSeller(u);
                 HttpContext.Session.SetObject("theUser", u);
                 Response.StatusCode = (int)System.Net.HttpStatusCode.OK;
-                context.SaveChanges(); 
+                context.SaveChanges();
                 //Important! Due to the Lazy Loading, the user will be returned with all of its contects!!
                 return u;
             }
@@ -135,8 +135,8 @@ namespace EcoCareServer.Controllers
 
         public List<Country> GetCountries()
         {
-            return context.Countries.ToList<Country>(); 
-            
+            return context.Countries.ToList<Country>();
+
         }
 
 
@@ -153,11 +153,11 @@ namespace EcoCareServer.Controllers
             foreach (User u in context.Users)
             {
                 if (u.UserName.Equals(userName))
-                    return true; 
+                    return true;
             }
-            return false; 
-           
-            
+            return false;
+
+
         }
 
         [Route("IsRegularUser")]
@@ -179,46 +179,46 @@ namespace EcoCareServer.Controllers
             return false;
 
         }
-        [Route ("GetUserData")]
+        [Route("GetUserData")]
         [HttpGet]
 
         public User GetUserData([FromQuery] string userName)
         {
-           //If username is null the request is bad
-                if (userName == null)
-                {
-                    Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
-                    return null;
-                }
-                foreach (User u in context.Users)
-                {
-                    if (u.UserName.Equals(userName))
-                        return u;
-                }
+            //If username is null the request is bad
+            if (userName == null)
+            {
+                Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
                 return null;
-
-        }
-        
-
-    [Route("GetSellerData")]
-    [HttpGet]
-
-    public Seller GetSellerData([FromQuery] string userName)
-    {
-        //If username is null the request is bad
-        if (userName == null)
-        {
-            Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
+            }
+            foreach (User u in context.Users)
+            {
+                if (u.UserName.Equals(userName))
+                    return u;
+            }
             return null;
-        }
-        foreach (Seller s in context.Sellers)
-        {
-            if (s.UserName.Equals(userName))
-                return s;
-        }
-        return null;
 
-    }
+        }
+
+
+        [Route("GetSellerData")]
+        [HttpGet]
+
+        public Seller GetSellerData([FromQuery] string userName)
+        {
+            //If username is null the request is bad
+            if (userName == null)
+            {
+                Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
+                return null;
+            }
+            foreach (Seller s in context.Sellers)
+            {
+                if (s.UserName.Equals(userName))
+                    return s;
+            }
+            return null;
+
+        }
 
         [Route("GetRegularUserData")]
         [HttpGet]
@@ -239,7 +239,33 @@ namespace EcoCareServer.Controllers
             return null;
 
         }
-    
+
+        [Route("IsDataExist")]
+        [HttpGet]
+        public bool IsDataExist([FromQuery] int categoryId, string userName)
+        {
+            //IQueryable<UsersDatum> list = context.UsersData.Where(d => d.CategoryId == categoryId && d.UserName.Equals(userName));
+            //if (list == null)
+            //    return false;
+            if (context.UsersData.Where(d => d.CategoryId == categoryId && d.UserName.Equals(userName)).FirstOrDefault() == null)
+                return false;
+            if (categoryId > 0)
+            {
+                DateTime today = DateTime.Today;
+                DateTime then = context.UsersData
+                    .Where(d => d.CategoryId == categoryId && d.UserName.Equals(userName))
+                    .FirstOrDefault().DateT;
+                TimeSpan ts = today.Subtract(then);
+                if (ts.Days >= 7)
+                    return false;
+                if ((int)today.DayOfWeek < (int)then.DayOfWeek)
+                    return false;
+                else
+                    return true; 
+            }
+            return false; 
+        }
+
         [Route("GetCategoryId")]
         [HttpGet]
         public int GetCategoryId([FromQuery] string category)
