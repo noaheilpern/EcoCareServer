@@ -135,8 +135,30 @@ namespace EcoCareServer.Controllers
 
         public List<Country> GetCountries()
         {
-            return context.Countries.ToList<Country>();
+            
+                return context.Countries.ToList<Country>();
 
+          
+
+        }
+
+        [Route("GetUserData")]
+        [HttpGet]
+
+        public List<UsersDatum> GetData(int categoryId, string userName)
+        {
+            User u = HttpContext.Session.GetObject<User>("theUser");
+            if (u != null)
+            {
+                DateTime today = DateTime.Today;
+                return context.UsersData.Where(d => d.CategoryId == categoryId && (today - d.DateT).TotalDays < 31
+                 && d.UserName.Equals(userName)).ToList();
+            }
+            else
+            {
+                Response.StatusCode = (int)System.Net.HttpStatusCode.Forbidden;
+                return null;
+            }
         }
 
 

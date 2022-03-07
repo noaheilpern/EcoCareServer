@@ -65,7 +65,7 @@ CREATE TABLE DatasCategories(
 	);
 
 CREATE TABLE UsersData(
-	CategoryId int not null,
+	CategoryId int not null references DatasCategories,
 	CategoryValue float not null,
     DateT Date not null,
     UserName nvarchar(255) references RegularUser not null,
@@ -313,3 +313,5 @@ Go
 ALTER TABLE RegularUser
 ADD Stars int;
 
+SELECT * FROM Users
+Go

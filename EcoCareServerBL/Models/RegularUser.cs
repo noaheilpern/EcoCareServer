@@ -23,8 +23,7 @@ namespace EcoCareServerBL.Models
         public string UserName { get; set; }
         [Column(TypeName = "date")]
         public DateTime Birthday { get; set; }
-        [Required]
-        [StringLength(255)]
+        
         public int InitialMeatsMeals { get; set; }
         public bool VeganRareMeat { get; set; }
         public bool Vegetarian { get; set; }
