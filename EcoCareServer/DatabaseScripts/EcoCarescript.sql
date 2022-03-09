@@ -17,7 +17,7 @@ CREATE TABLE Product(
     ImageSource nvarchar(255) not null,
     Active bit not null,
     SellersUsername nvarchar(255) not null,
-    ProductId int primary key not null
+    ProductId int identity(1,1)  primary key not null
 );
 
 CREATE TABLE Users(
@@ -315,3 +315,10 @@ ADD Stars int;
 
 SELECT * FROM Users
 Go
+
+INSERT INTO Product values('Ice Cream', 300, 'A very good ice cream from Golda', 'https://getgolda.co.il/wp-content/uploads/sites/56/2020/03/png-02.png', 1, 'Golda')
+Go
+
+
+
+ 

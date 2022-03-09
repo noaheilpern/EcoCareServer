@@ -130,6 +130,14 @@ namespace EcoCareServer.Controllers
             }
         }
 
+        [Route("GetProducts")]
+        [HttpGet]
+        //returns only active products
+        public List<Product> GetProducts()
+        {
+            return context.Products.Where(p => p.Active == true).ToList<Product>(); 
+        }
+
         [Route("GetCountries")]
         [HttpGet]
 

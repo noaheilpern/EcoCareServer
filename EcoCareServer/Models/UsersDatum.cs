@@ -20,6 +20,9 @@ namespace EcoCareServer.Models
         [StringLength(255)]
         public string UserName { get; set; }
 
+        [ForeignKey(nameof(CategoryId))]
+        [InverseProperty(nameof(DatasCategory.UsersData))]
+        public virtual DatasCategory Category { get; set; }
         [ForeignKey(nameof(UserName))]
         [InverseProperty(nameof(RegularUser.UsersData))]
         public virtual RegularUser UserNameNavigation { get; set; }
