@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
+
+#nullable disable
 
 namespace EcoCareServerBL.Models
 {
     public partial class DatasCategory
     {
-            [Required]
-            [StringLength(255)]
-            public string CategoryName { get; set; }
-            [Key]
-            public int CategoryId { get; set; }
-        
+        [Required]
+        [StringLength(255)]
+        public string CategoryName { get; set; }
+        [Key]
+        public int CategoryId { get; set; }
     }
 }
