@@ -23,7 +23,6 @@ namespace EcoCareServerBL.Models
         public string UserName { get; set; }
         [Column(TypeName = "date")]
         public DateTime Birthday { get; set; }
-        
         public int InitialMeatsMeals { get; set; }
         public bool VeganRareMeat { get; set; }
         public bool Vegetarian { get; set; }
@@ -33,6 +32,7 @@ namespace EcoCareServerBL.Models
         public double DistanceToWork { get; set; }
         public double LastElectricityBill { get; set; }
         public int PeopleAtTheHousehold { get; set; }
+        public int? Stars { get; set; }
 
         [ForeignKey(nameof(UserName))]
         [InverseProperty(nameof(User.RegularUser))]

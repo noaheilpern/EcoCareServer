@@ -61,13 +61,18 @@ namespace EcoCareServer.Models
                     .WithMany(p => p.Goals)
                     .HasForeignKey(d => d.UserName)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Goals__UserName__38996AB5");
+                    .HasConstraintName("FK__Goals__UserName__37A5467C");
+            });
+
+            modelBuilder.Entity<Product>(entity =>
+            {
+                entity.Property(e => e.ProductId).ValueGeneratedNever();
             });
 
             modelBuilder.Entity<RegularUser>(entity =>
             {
                 entity.HasKey(e => e.UserName)
-                    .HasName("PK__RegularU__C9F28457DDC831D7");
+                    .HasName("PK__RegularU__C9F2845742C70B27");
 
                 entity.HasOne(d => d.UserNameNavigation)
                     .WithOne(p => p.RegularUser)
@@ -96,7 +101,7 @@ namespace EcoCareServer.Models
             modelBuilder.Entity<Seller>(entity =>
             {
                 entity.HasKey(e => e.UserName)
-                    .HasName("PK__Seller__C9F28457739D22B4");
+                    .HasName("PK__Seller__C9F28457817CF997");
 
                 entity.HasOne(d => d.UserNameNavigation)
                     .WithOne(p => p.Seller)
@@ -108,13 +113,13 @@ namespace EcoCareServer.Models
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasKey(e => e.UserName)
-                    .HasName("PK__Users__C9F28457966AA31C");
+                    .HasName("PK__Users__C9F284574846BD66");
             });
 
             modelBuilder.Entity<UsersDatum>(entity =>
             {
                 entity.HasKey(e => new { e.DateT, e.CategoryId, e.UserName })
-                    .HasName("PK__UsersDat__48A4E457D5BD2D57");
+                    .HasName("PK__UsersDat__48A4E457081E8D2C");
 
                 entity.HasOne(d => d.Category)
                     .WithMany(p => p.UsersData)
@@ -126,7 +131,7 @@ namespace EcoCareServer.Models
                     .WithMany(p => p.UsersData)
                     .HasForeignKey(d => d.UserName)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__UsersData__UserN__35BCFE0A");
+                    .HasConstraintName("FK__UsersData__UserN__34C8D9D1");
             });
 
             OnModelCreatingPartial(modelBuilder);

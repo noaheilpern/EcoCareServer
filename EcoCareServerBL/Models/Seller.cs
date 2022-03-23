@@ -17,8 +17,6 @@ namespace EcoCareServerBL.Models
         [Required]
         [StringLength(255)]
         public string PhoneNum { get; set; }
-        [Required]
-        [StringLength(255)]
 
         [ForeignKey(nameof(UserName))]
         [InverseProperty(nameof(User.Seller))]
