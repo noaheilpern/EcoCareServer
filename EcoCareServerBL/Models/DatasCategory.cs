@@ -10,10 +10,18 @@ namespace EcoCareServerBL.Models
 {
     public partial class DatasCategory
     {
+        public DatasCategory()
+        {
+            UsersData = new HashSet<UsersDatum>();
+        }
+
         [Required]
         [StringLength(255)]
         public string CategoryName { get; set; }
         [Key]
         public int CategoryId { get; set; }
+
+        [InverseProperty(nameof(UsersDatum.Category))]
+        public virtual ICollection<UsersDatum> UsersData { get; set; }
     }
 }

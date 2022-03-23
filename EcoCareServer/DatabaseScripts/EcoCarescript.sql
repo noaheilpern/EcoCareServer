@@ -316,16 +316,17 @@ ADD Stars int;
 SELECT * FROM Users
 Go
 
-INSERT INTO Product values('Ice Cream', 300, 'A very good ice cream from Golda', 'https://getgolda.co.il/wp-content/uploads/sites/56/2020/03/png-02.png', 1, 'Golda', 1)
+INSERT INTO Product values('Ice Cream', 300, 'A very good ice cream from Golda', 'https://getgolda.co.il/wp-content/uploads/sites/56/2020/03/png-02.png',
+1, 'Golda')
 Go
 
 
 INSERT INTO Product values('Medium Cup Of ReBar', 500, 'A medium cup of selected rebar tastes', 'https://cdn.groo.co.il/_media/media/20728/215232.png
-', 1, 'ReBar', 2)
+', 1, 'ReBar')
 Go
 
 INSERT INTO Product values('JBL Filp Essential', 1200, 'A Black JBL Speaker, water proof, has bluetooth a connection', 'https://www.payngo.co.il/media/catalog/product/cache/fe04646a7504602017a124bbc269ed24/0/1/012efeff60111.png
-', 1, 'JBL', 4)
+', 1, 'JBL')
 Go
 
 

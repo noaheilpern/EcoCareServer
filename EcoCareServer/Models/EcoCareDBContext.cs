@@ -121,11 +121,11 @@ namespace EcoCareServer.Models
                 entity.HasKey(e => new { e.DateT, e.CategoryId, e.UserName })
                     .HasName("PK__UsersDat__48A4E457081E8D2C");
 
-                entity.HasOne(d => d.Category)
-                    .WithMany(p => p.UsersData)
-                    .HasForeignKey(d => d.CategoryId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__UsersData__Categ__34C8D9D1");
+                //entity.HasOne(d => d.CategoryId)
+                //    .WithMany(p => p.UsersData)
+                //    .HasForeignKey(d => d.CategoryId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK__UsersData__Categ__34C8D9D1");
 
                 entity.HasOne(d => d.UserNameNavigation)
                     .WithMany(p => p.UsersData)
