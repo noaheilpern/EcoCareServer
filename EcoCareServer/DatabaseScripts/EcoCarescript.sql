@@ -96,7 +96,13 @@ INSERT into RegularUser Values('noa', '2016-08-27','7'
            ,'walking'
            ,'0.5'
            ,'234'
-           ,'6' )
+           ,'6' , '0')
+
+		   
+UPDATE RegularUser SET Stars = 0
+WHERE UserName = 'noa';
+
+
 SELECT * FROM RegularUser
 Go
 
