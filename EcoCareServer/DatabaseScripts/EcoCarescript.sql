@@ -89,6 +89,10 @@ INSERT INTO DatasCategories Values('Meat_Meals')
   INSERT INTO DatasCategories Values('Electricity_Usage')
 
 
+  ALTER TABLE RegularUser
+ADD Stars int;
+
+
 INSERT INTO Users VALUES('noa', 'noa@gmail.com', '123456' , 'Noa', 'Heilpern', '0', 'Israel')
 INSERT into RegularUser Values('noa', '2016-08-27','7'
 			,'0'
@@ -96,7 +100,7 @@ INSERT into RegularUser Values('noa', '2016-08-27','7'
            ,'walking'
            ,'0.5'
            ,'234'
-           ,'6' , '0')
+           ,'6', '0')
 
 		   
 UPDATE RegularUser SET Stars = 0
@@ -316,10 +320,8 @@ Go
 			insert into Countries values ('Faeroe Islands','0.04')
 			insert into Countries values ('Greenland','0.03')
 
-ALTER TABLE RegularUser
-ADD Stars int;
 
-SELECT * FROM Users
+SELECT * FROM RegularUser
 Go
 
 INSERT INTO Product values('Ice Cream', 300, 'A very good ice cream from Golda', 'https://getgolda.co.il/wp-content/uploads/sites/56/2020/03/png-02.png',
