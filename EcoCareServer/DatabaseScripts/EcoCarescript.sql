@@ -13,7 +13,7 @@ Go
 CREATE TABLE Product(
     Title nvarchar(255) not null,
     Price INT not null,
-    Description nvarchar(255) not null,
+    Description nvarchar(8000) not null,
     ImageSource nvarchar(255) not null,
     Active bit not null,
     SellersUsername nvarchar(255) not null,
