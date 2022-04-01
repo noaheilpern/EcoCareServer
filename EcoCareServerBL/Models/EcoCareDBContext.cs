@@ -24,6 +24,8 @@ namespace EcoCareServerBL.Models
         public virtual DbSet<RegularUser> RegularUsers { get; set; }
         public virtual DbSet<Sale> Sales { get; set; }
         public virtual DbSet<Seller> Sellers { get; set; }
+
+
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UsersDatum> UsersData { get; set; }
 

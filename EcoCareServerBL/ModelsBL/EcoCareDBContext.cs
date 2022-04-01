@@ -34,6 +34,12 @@ namespace EcoCareServerBL.Models
 
             return user;
         }
+
+        public void UpdateProduct(Product p)
+        {
+            this.Products.Update(p);
+            this.SaveChanges(); 
+        }
         public void UpdateSeller(Seller s)
         {
             this.Sellers.Update(s);
