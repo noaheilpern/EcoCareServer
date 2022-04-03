@@ -13,7 +13,7 @@ Go
 CREATE TABLE Product(
     Title nvarchar(255) not null,
     Price INT not null,
-    Description nvarchar(8000) not null,
+    Description nvarchar(4000) not null,
     ImageSource nvarchar(255) not null,
     Active bit not null,
     SellersUsername nvarchar(255) not null,
@@ -43,6 +43,7 @@ CREATE TABLE RegularUser(
     DistanceToWork float not null,
     LastElectricityBill float not null,
     PeopleAtTheHousehold int not null,
+	Stars int,
 
 );
 
@@ -89,9 +90,7 @@ INSERT INTO DatasCategories Values('Meat_Meals')
   INSERT INTO DatasCategories Values('Electricity_Usage')
 
 
-  ALTER TABLE RegularUser
-ADD Stars int;
-
+ 
 
 INSERT INTO Users VALUES('noa', 'noa@gmail.com', '123456' , 'Noa', 'Heilpern', '0', 'Israel')
 INSERT into RegularUser Values('noa', '2016-08-27','7'
@@ -103,8 +102,6 @@ INSERT into RegularUser Values('noa', '2016-08-27','7'
            ,'6', '0')
 
 		   
-UPDATE RegularUser SET Stars = 0
-WHERE UserName = 'noa';
 
 
 SELECT * FROM RegularUser
