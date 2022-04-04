@@ -34,7 +34,12 @@ namespace EcoCareServerBL.Models
 
             return user;
         }
-
+        public void DeleteProduct(Product p)
+        {
+            p.Active = false;
+            this.Products.Update(p);
+            this.SaveChanges();
+        }
         public void UpdateProduct(Product p)
         {
             this.Products.Update(p);
