@@ -49,7 +49,46 @@ namespace EcoCareServer.Controllers
                 return false;
             }
         }
+        [Route("DecreaseStars")]
+        [HttpPost]
 
+        public bool DecreaseStars([FromQuery]int productId, string userName)
+        {
+            try
+            {
+                RegularUser ru = null;
+                foreach (RegularUser u in context.RegularUsers)
+                {
+                    if (u.UserName.Equals(userName))
+                        ru = u;
+                }
+                int starsToDecrease = 0;
+                foreach (Product p in context.Products)
+                {
+                    if (p.ProductId == productId)
+                        starsToDecrease = p.Price;
+                }
+                if(ru != null && starsToDecrease != 0)
+                {
+                    ru.Stars = ru.Stars - starsToDecrease;
+
+                    this.context.UpdateUser(ru);
+                    HttpContext.Session.SetObject("theUser", ru);
+                    Response.StatusCode = (int)System.Net.HttpStatusCode.OK;
+                    context.SaveChanges();
+                    //Important! Due to the Lazy Loading, the user will be returned with all of its contects!!
+                    return true;
+
+                }
+
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+            return false; 
+        }
         [Route("UpdateProduct")]
         [HttpPost]
 
