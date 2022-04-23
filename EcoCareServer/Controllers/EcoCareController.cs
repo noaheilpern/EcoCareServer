@@ -63,10 +63,14 @@ namespace EcoCareServer.Controllers
                         ru = u;
                 }
                 int starsToDecrease = 0;
+                string sellerUserName = null;  
                 foreach (Product p in context.Products)
                 {
                     if (p.ProductId == productId)
+                    {
                         starsToDecrease = p.Price;
+                        sellerUserName = p.SellersUsername; 
+                    }
                 }
                 if(ru != null && starsToDecrease != 0)
                 {
@@ -76,8 +80,35 @@ namespace EcoCareServer.Controllers
                     HttpContext.Session.SetObject("theUser", ru);
                     Response.StatusCode = (int)System.Net.HttpStatusCode.OK;
                     context.SaveChanges();
+
+
+                    if (sellerUserName != null)
+                    {
+                        Sale s = new Sale
+                        {
+                            SellerUserName = sellerUserName,
+                            BuyerUserName = ru.UserName,
+                            DateBought = DateTime.Today,
+                            PriceBought = starsToDecrease,
+                            ProductId = productId,
+
+
+                        };
+                        this.context.AddSale(s);
+                        HttpContext.Session.SetObject("sale", s);
+                        Response.StatusCode = (int)System.Net.HttpStatusCode.OK;
+                        context.SaveChanges();
+                        //Important! Due to the Lazy Loading, the user will be returned with all of its contects!!
+                        return true;
+                    }
+                    else
+                    {
+                        Response.StatusCode = (int)System.Net.HttpStatusCode.Forbidden;
+                        return false;
+                    }
+                    //add sales to seller sales 
+
                     //Important! Due to the Lazy Loading, the user will be returned with all of its contects!!
-                    return true;
 
                 }
 

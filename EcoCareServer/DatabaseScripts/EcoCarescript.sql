@@ -53,11 +53,13 @@ CREATE TABLE Seller(
 );
 
 CREATE TABLE Sales(
-    BuyerUserName nvarchar(255) foreign key references RegularUser not null,
+    BuyerUserName nvarchar(255) references RegularUser not null,
+	SellerUserName nvarchar(255) foreign key references Seller not null, 
     ProductId int foreign key references Product not null,
-    DateBought int not null,
+    DateBought Date not null,
     PriceBought int not null,
-    SaleId int primary key not null
+    SaleId int primary key not null,
+
 );
 
 CREATE TABLE DatasCategories(
@@ -332,6 +334,10 @@ Go
 
 INSERT INTO Product values('JBL Filp Essential', 1200, 'A Black JBL Speaker, water proof, has bluetooth a connection', 'https://www.payngo.co.il/media/catalog/product/cache/fe04646a7504602017a124bbc269ed24/0/1/012efeff60111.png
 ', 1, 'JBL')
+Go
+
+INSERT INTO Product values('Zoi Gift Card 50$', 2000, 'A great greek restaurnt in Kfar Saba', 'https://zoi-kitchen.co.il/wp-content/uploads/2021/05/unnamed-file.png',
+1, 'Zoi')
 Go
 
 

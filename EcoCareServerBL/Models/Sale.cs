@@ -13,8 +13,12 @@ namespace EcoCareServerBL.Models
         [Required]
         [StringLength(255)]
         public string BuyerUserName { get; set; }
+        [Required]
+        [StringLength(255)]
+        public string SellerUserName { get; set; }
         public int ProductId { get; set; }
-        public int DateBought { get; set; }
+        [Column(TypeName = "date")]
+        public DateTime DateBought { get; set; }
         public int PriceBought { get; set; }
         [Key]
         public int SaleId { get; set; }
@@ -25,5 +29,8 @@ namespace EcoCareServerBL.Models
         [ForeignKey(nameof(ProductId))]
         [InverseProperty("Sales")]
         public virtual Product Product { get; set; }
+        [ForeignKey(nameof(SellerUserName))]
+        [InverseProperty(nameof(Seller.Sales))]
+        public virtual Seller SellerUserNameNavigation { get; set; }
     }
 }

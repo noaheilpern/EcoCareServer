@@ -21,7 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\NewFolder\" />
     <Folder Include="DTO\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>

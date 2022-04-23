@@ -22,6 +22,11 @@ namespace EcoCareServerBL.Models
             this.RegularUsers.Add(ru);
             this.SaveChanges();
         }
+        public void AddSale(Sale s)
+        {
+            this.Sales.Add(s);
+            this.SaveChanges(); 
+        }
         public void AddSeller(Seller s)
         {
             this.Sellers.Add(s);
