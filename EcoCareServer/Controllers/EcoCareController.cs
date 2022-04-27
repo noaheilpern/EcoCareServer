@@ -216,6 +216,28 @@ namespace EcoCareServer.Controllers
             }
         }
 
+        [Route ("AddProduct")]
+        [HttpPost]
+        public Product AddProduct([FromBody] Product p)
+        {
+
+            if (p != null)
+            {
+                this.context.AddProduct(p);
+                HttpContext.Session.SetObject("theProduct", p);
+                Response.StatusCode = (int)System.Net.HttpStatusCode.OK;
+                context.SaveChanges();
+                //Important! Due to the Lazy Loading, the user will be returned with all of its contects!!
+                return p;
+            }
+            else
+            {
+                Response.StatusCode = (int)System.Net.HttpStatusCode.Forbidden;
+                return null;
+            }
+        }
+
+
         [Route("RegisterUser")]
         [HttpPost]
 
