@@ -402,6 +402,41 @@ namespace EcoCareServer.Controllers
             return null;
 
         }
+        [Route ("GetUserGraphsData")]
+        [HttpGet]
+        public List<double> GetUserGraphsData([FromQuery] string userName)
+        {
+            try
+            {
+                //If username is null the request is bad
+                if (userName == null)
+                {
+                    Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
+                    return null;
+                }
+                //ניקח שלושה שבועות אחורה 
+                DateTime today = DateTime.Today;
+                List<UsersDatum> meatData = GetData(0, userName);
+                List<UsersDatum> distanceData = GetData(1, userName);
+                List<UsersDatum> elecData = GetData(2, userName);
+                //נחשב עבור כל שבוע את טביעת הרגל הפחמנית
+                //apply the formula for carbon footprint for each list
+
+                //sum every week 
+
+                //return a list of every week carbon footprint data
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null; 
+            }
+
+
+
+        }
+
 
         [Route("GetRegularUserData")]
         [HttpGet]
