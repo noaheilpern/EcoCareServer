@@ -8,6 +8,12 @@ using System.Threading.Tasks;
 
 namespace EcoCareServer.Controllers
 {
+    static class Constants
+    {
+        public const double MEAT_EMISSION_FACTOR = 7.726;
+        public const double AVERAGE_CAR_EMISSION = 0.1684;
+    }
+
     [Route("EcoCareAPI")]
     [ApiController]
     public class EcoCareController : ControllerBase
@@ -198,10 +204,22 @@ namespace EcoCareServer.Controllers
         [Route("AddData")]
         [HttpPost]
 
-        public bool AddUserData([FromBody] UsersDatum data)
+        public bool AddUserData([FromBody] UsersDatum data, double ef)
         {
             if (data != null)
             {
+                switch(data.CategoryId)
+                {
+                    case 0:
+                        data.CarbonFootprint = data.CategoryValue * Constants.MEAT_EMISSION_FACTOR;
+                        break;
+                    case 1:
+                        data.CarbonFootprint = data.CategoryValue * Constants.AVERAGE_CAR_EMISSION;
+                        break;
+                    case 2:
+                        data.CarbonFootprint = data.CategoryValue * ef;
+                        break;
+                }
                 this.context.AddData(data);
                 HttpContext.Session.SetObject("theData", data);
                 Response.StatusCode = (int)System.Net.HttpStatusCode.OK;
@@ -306,20 +324,22 @@ namespace EcoCareServer.Controllers
         [Route("GetUserData")]
         [HttpGet]
 
-        public List<UsersDatum> GetData(int categoryId, string userName)
+        public List<UsersDatum> GetUserData(int categoryId, string userName)
         {
             User u = HttpContext.Session.GetObject<User>("theUser");
             if (u != null)
             {
                 DateTime today = DateTime.Today;
-                return context.UsersData.Where(d => d.CategoryId == categoryId && (today - d.DateT).TotalDays < 31
+                List<UsersDatum> usersData =  context.UsersData.Where(d => d.CategoryId == categoryId && (today - d.DateT).TotalDays < 31
                  && d.UserName.Equals(userName)).ToList();
+                 
             }
             else
             {
                 Response.StatusCode = (int)System.Net.HttpStatusCode.Forbidden;
                 return null;
             }
+            return null;
         }
 
 
@@ -404,7 +424,7 @@ namespace EcoCareServer.Controllers
         }
         [Route ("GetUserGraphsData")]
         [HttpGet]
-        public List<double> GetUserGraphsData([FromQuery] string userName)
+        public List<double> GetUserGraphsData([FromQuery] string userName, double ef)
         {
             try
             {
@@ -416,16 +436,26 @@ namespace EcoCareServer.Controllers
                 }
                 //ניקח שלושה שבועות אחורה 
                 DateTime today = DateTime.Today;
-                List<UsersDatum> meatData = GetData(0, userName);
-                List<UsersDatum> distanceData = GetData(1, userName);
-                List<UsersDatum> elecData = GetData(2, userName);
+                List<UsersDatum> data = GetUserData(0, userName);
+                List<UsersDatum> distanceData = GetUserData(1, userName);
+                List<UsersDatum> elecData = GetUserData(2, userName);
+                //List<UsersDatum> 
                 //נחשב עבור כל שבוע את טביעת הרגל הפחמנית
                 //apply the formula for carbon footprint for each list
-
                 //sum every week 
+                DateTime then = context.UsersData
+                    .Where(d => /** d.CategoryId ==  categoryId  && **/ d.UserName.Equals(userName))
+                    .FirstOrDefault().DateT;
+                TimeSpan ts = today.Subtract(then);
+                if (ts.Days < 7 || (int)today.DayOfWeek >= (int)then.DayOfWeek)
+                {
+                    //הנתון קיים ואפשר להכניס אותו
+                }
+
+                    
 
                 //return a list of every week carbon footprint data
-
+                return null; 
             }
             catch (Exception e)
             {

@@ -13,6 +13,7 @@ namespace EcoCareServerBL.Models
         [Key]
         public int CategoryId { get; set; }
         public double CategoryValue { get; set; }
+        public double? CarbonFootprint { get; set; }
         [Key]
         [Column(TypeName = "date")]
         public DateTime DateT { get; set; }

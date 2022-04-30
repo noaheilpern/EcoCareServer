@@ -43,19 +43,19 @@ namespace EcoCareServerBL.Models
             modelBuilder.Entity<Country>(entity =>
             {
                 entity.HasKey(e => e.CountryName)
-                    .HasName("PK__Countrie__E056F200F4EA0254");
+                    .HasName("PK__Countrie__E056F200EC6CA3C2");
             });
 
             modelBuilder.Entity<DatasCategory>(entity =>
             {
                 entity.HasKey(e => e.CategoryId)
-                    .HasName("PK__DatasCat__19093A0BA72CFEDD");
+                    .HasName("PK__DatasCat__19093A0B422BBF95");
             });
 
             modelBuilder.Entity<Goal>(entity =>
             {
                 entity.HasKey(e => e.DateT)
-                    .HasName("PK__Goals__BFFD85732EC26927");
+                    .HasName("PK__Goals__BFFD85735444A418");
 
                 entity.HasOne(d => d.UserNameNavigation)
                     .WithMany(p => p.Goals)
@@ -67,7 +67,7 @@ namespace EcoCareServerBL.Models
             modelBuilder.Entity<RegularUser>(entity =>
             {
                 entity.HasKey(e => e.UserName)
-                    .HasName("PK__RegularU__C9F28457E02C1FB5");
+                    .HasName("PK__RegularU__C9F28457EA54DC8D");
 
                 entity.HasOne(d => d.UserNameNavigation)
                     .WithOne(p => p.RegularUser)
@@ -102,7 +102,7 @@ namespace EcoCareServerBL.Models
             modelBuilder.Entity<Seller>(entity =>
             {
                 entity.HasKey(e => e.UserName)
-                    .HasName("PK__Seller__C9F284575E1AC3F8");
+                    .HasName("PK__Seller__C9F284573E7EB23E");
 
                 entity.HasOne(d => d.UserNameNavigation)
                     .WithOne(p => p.Seller)
@@ -114,13 +114,13 @@ namespace EcoCareServerBL.Models
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasKey(e => e.UserName)
-                    .HasName("PK__Users__C9F28457DBA1ABF4");
+                    .HasName("PK__Users__C9F284579FC096C5");
             });
 
             modelBuilder.Entity<UsersDatum>(entity =>
             {
                 entity.HasKey(e => new { e.DateT, e.CategoryId, e.UserName })
-                    .HasName("PK__UsersDat__48A4E4578B835E7E");
+                    .HasName("PK__UsersDat__48A4E457B7C1E23B");
 
                 entity.HasOne(d => d.Category)
                     .WithMany(p => p.UsersData)

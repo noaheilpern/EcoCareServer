@@ -13,6 +13,7 @@ namespace EcoCareServer.Models
         [Key]
         public int CategoryId { get; set; }
         public double CategoryValue { get; set; }
+        public double? CarbonFootprint { get; set; }
         [Key]
         [Column(TypeName = "date")]
         public DateTime DateT { get; set; }
@@ -20,6 +21,9 @@ namespace EcoCareServer.Models
         [StringLength(255)]
         public string UserName { get; set; }
 
+        [ForeignKey(nameof(CategoryId))]
+        [InverseProperty(nameof(DatasCategory.UsersData))]
+        public virtual DatasCategory Category { get; set; }
         [ForeignKey(nameof(UserName))]
         [InverseProperty(nameof(RegularUser.UsersData))]
         public virtual RegularUser UserNameNavigation { get; set; }

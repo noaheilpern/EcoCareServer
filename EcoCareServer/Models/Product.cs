@@ -21,7 +21,7 @@ namespace EcoCareServer.Models
         public string Title { get; set; }
         public int Price { get; set; }
         [Required]
-        [StringLength(255)]
+        [StringLength(4000)]
         public string Description { get; set; }
         [Required]
         [StringLength(255)]

@@ -11,6 +11,11 @@ namespace EcoCareServer.Models
     [Table("Seller")]
     public partial class Seller
     {
+        public Seller()
+        {
+            Sales = new HashSet<Sale>();
+        }
+
         [Key]
         [StringLength(255)]
         public string UserName { get; set; }
@@ -21,5 +26,7 @@ namespace EcoCareServer.Models
         [ForeignKey(nameof(UserName))]
         [InverseProperty(nameof(User.Seller))]
         public virtual User UserNameNavigation { get; set; }
+        [InverseProperty(nameof(Sale.SellerUserNameNavigation))]
+        public virtual ICollection<Sale> Sales { get; set; }
     }
 }

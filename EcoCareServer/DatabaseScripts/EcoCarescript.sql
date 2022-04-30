@@ -70,6 +70,7 @@ CREATE TABLE DatasCategories(
 CREATE TABLE UsersData(
 	CategoryId int not null references DatasCategories,
 	CategoryValue float not null,
+	CarbonFootprint float(255), 
     DateT Date not null,
     UserName nvarchar(255) references RegularUser not null,
 	primary key (DateT, CategoryId, UserName),
