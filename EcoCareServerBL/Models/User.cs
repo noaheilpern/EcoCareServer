@@ -31,6 +31,9 @@ namespace EcoCareServerBL.Models
         [StringLength(255)]
         public string Country { get; set; }
 
+        [ForeignKey(nameof(Country))]
+        [InverseProperty("Users")]
+        public virtual Country CountryNavigation { get; set; }
         [InverseProperty("UserNameNavigation")]
         public virtual RegularUser RegularUser { get; set; }
         [InverseProperty("UserNameNavigation")]

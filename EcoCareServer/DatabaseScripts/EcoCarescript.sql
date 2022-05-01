@@ -9,6 +9,10 @@ Use EcoCareDB
 Go
 
 
+CREATE TABLE GraphItem(
+	ValueFootPrint float not null, 
+	DateGraph Date, 
+	); 
 
 CREATE TABLE Product(
     Title nvarchar(255) not null,
@@ -19,6 +23,11 @@ CREATE TABLE Product(
     SellersUsername nvarchar(255) not null,
     ProductId int identity(1,1)  primary key not null
 );
+CREATE TABLE Countries(
+	CountryName nvarchar(255) primary key not null, 
+	EF float not null, 
+	);
+
 
 CREATE TABLE Users(
     UserName nvarchar(255) primary key not null,
@@ -28,7 +37,7 @@ CREATE TABLE Users(
     LastName nvarchar(255) not null,
     IsAdmin bit not null,
     CONSTRAINT UC_Email UNIQUE(Email),
-	Country nvarchar(255) not null,
+	Country nvarchar(255) foreign key references Countries(CountryName) not null,
 
 
 );
@@ -82,27 +91,8 @@ CREATE TABLE Goals(
     UserName nvarchar(255) foreign key references RegularUser not null,
 );
 
-CREATE TABLE Countries(
-	CountryName nvarchar(255) primary key not null, 
-	EF float not null, 
-	);
 USE [EcoCareDB]
 GO
-INSERT INTO DatasCategories Values('Meat_Meals')
- INSERT INTO DatasCategories Values('Distance')
-  INSERT INTO DatasCategories Values('Electricity_Usage')
-
-
- 
-
-INSERT INTO Users VALUES('noa', 'noa@gmail.com', '123456' , 'Noa', 'Heilpern', '0', 'Israel')
-INSERT into RegularUser Values('noa', '2016-08-27','7'
-			,'0'
-           ,'0'
-           ,'walking'
-           ,'0.5'
-           ,'234'
-           ,'6', '0')
 
 		   
 
@@ -321,8 +311,23 @@ Go
 			insert into Countries values ('Greenland','0.03')
 
 
-SELECT * FROM RegularUser
-Go
+
+
+INSERT INTO DatasCategories Values('Meat_Meals')
+ INSERT INTO DatasCategories Values('Distance')
+  INSERT INTO DatasCategories Values('Electricity_Usage')
+
+
+ 
+
+INSERT INTO Users VALUES('noa', 'noa@gmail.com', '123456' , 'Noa', 'Heilpern', '0', 'Israel')
+INSERT into RegularUser Values('noa', '2016-08-27','7'
+			,'0'
+           ,'0'
+           ,'walking'
+           ,'0.5'
+           ,'234'
+           ,'6', '0')
 
 INSERT INTO Product values('Ice Cream', 300, 'A very good ice cream from Golda', 'https://getgolda.co.il/wp-content/uploads/sites/56/2020/03/png-02.png',
 1, 'Golda')
@@ -343,3 +348,5 @@ Go
 
 
  
+ SELECT * FROM RegularUser
+Go

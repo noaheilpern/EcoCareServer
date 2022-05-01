@@ -204,7 +204,7 @@ namespace EcoCareServer.Controllers
         [Route("AddData")]
         [HttpPost]
 
-        public bool AddUserData([FromBody] UsersDatum data, double ef)
+        public bool AddUserData([FromBody] UsersDatum data, [FromQuery] double ef)
         {
             if (data != null)
             {
@@ -402,7 +402,23 @@ namespace EcoCareServer.Controllers
 
         }
 
+        [Route("GetCountryEF")]
+        [HttpGet]
 
+        public double GetCountryEF([FromQuery] string country)
+        {
+            try
+            {
+                return context.Countries.Where(c => c.CountryName.Equals(country)).FirstOrDefault().Ef;
+
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return -1; 
+            }
+
+        }
         [Route("GetSellerData")]
         [HttpGet]
 
@@ -422,9 +438,122 @@ namespace EcoCareServer.Controllers
             return null;
 
         }
+
+        [Route ("GetSellerGraphsData")]
+        [HttpGet]
+
+        public List<GraphItem> GetSellerGraphsData([FromBody] ICollection<Sale> sales)
+        {
+            try
+            {
+                //calculate first day of each week
+                DateTime today = DateTime.Today;
+
+                DateTime firstWeekStartDay = today.AddDays(1 - (int)today.DayOfWeek);
+
+
+                DateTime secondWeekStartDay = firstWeekStartDay.AddDays(-7);
+
+                DateTime thirdWeekStartDay = secondWeekStartDay.AddDays(-7);
+
+                DateTime fourthWeekStartDay = thirdWeekStartDay.AddDays(-7);
+
+                //get the data of each week
+                List<Sale> firstWeek = sales.Where(s => (s.DateBought - firstWeekStartDay).TotalDays < 7 && firstWeekStartDay.DayOfWeek <= s.DateBought.DayOfWeek
+                ).ToList();
+
+                List<Sale> secondWeek = sales.Where(s => (s.DateBought - secondWeekStartDay).TotalDays < 7 && secondWeekStartDay.DayOfWeek <= s.DateBought.DayOfWeek
+                ).ToList();
+
+                List<Sale> thirdWeek = sales.Where(s => (s.DateBought - thirdWeekStartDay).TotalDays < 7 && thirdWeekStartDay.DayOfWeek <= s.DateBought.DayOfWeek
+                ).ToList();
+
+                List<Sale> fourthWeek = sales.Where(s => (s.DateBought - fourthWeekStartDay).TotalDays < 7 && fourthWeekStartDay.DayOfWeek <= s.DateBought.DayOfWeek
+                ).ToList();
+                //calculate the sum of the carbon footprint
+
+                double footprintSum = 0;
+                foreach (Sale s in firstWeek)
+                {
+                    double inSehkels = (double)s.PriceBought / 10;
+                    double inCO2 = (inSehkels / 5) * 7560;
+                    footprintSum += inCO2;
+                }
+
+                GraphItem first = new GraphItem
+                {
+                    DateGraph = firstWeekStartDay,
+                    ValueFootPrint = footprintSum,
+                };
+
+                footprintSum = 0;
+                foreach (Sale s in secondWeek)
+                {
+                    double inSehkels = (double)s.PriceBought / 10;
+                    double inCO2 = (inSehkels / 5) * 7560;
+                    footprintSum += inCO2;
+                }
+
+                GraphItem second = new GraphItem
+                {
+                    DateGraph = secondWeekStartDay,
+                    ValueFootPrint = footprintSum,
+                };
+
+                footprintSum = 0;
+                foreach (Sale s in thirdWeek)
+                {
+                    double inSehkels = (double)s.PriceBought / 10;
+                    double inCO2 = (inSehkels / 5) * 7560;
+                    footprintSum += inCO2;
+                }
+
+                GraphItem third = new GraphItem
+                {
+                    DateGraph = thirdWeekStartDay,
+                    ValueFootPrint = footprintSum,
+                };
+
+                footprintSum = 0;
+                foreach (Sale s in fourthWeek)
+                {
+                    double inSehkels = (double)s.PriceBought / 10;
+                    double inCO2 = (inSehkels / 5) * 7560;
+                    footprintSum += inCO2;
+                }
+
+                GraphItem fourth = new GraphItem
+                {
+                    DateGraph = fourthWeekStartDay,
+                    ValueFootPrint = footprintSum,
+                };
+
+
+
+                List<GraphItem> graphItems = new List<GraphItem>();
+                graphItems.Add(first);
+                graphItems.Add(second);
+                graphItems.Add(third);
+                graphItems.Add(fourth);
+
+                //return a list of every week carbon footprint data
+                return graphItems;
+
+            }
+
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null; 
+            }
+
+
+
+        }
+        
         [Route ("GetUserGraphsData")]
         [HttpGet]
-        public List<double> GetUserGraphsData([FromQuery] string userName, double ef)
+        public List<GraphItem> GetUserGraphsData([FromQuery] string userName)
         {
             try
             {
@@ -434,28 +563,91 @@ namespace EcoCareServer.Controllers
                     Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
                     return null;
                 }
-                //ניקח שלושה שבועות אחורה 
+                //calculate first day of each week
                 DateTime today = DateTime.Today;
-                List<UsersDatum> data = GetUserData(0, userName);
-                List<UsersDatum> distanceData = GetUserData(1, userName);
-                List<UsersDatum> elecData = GetUserData(2, userName);
-                //List<UsersDatum> 
-                //נחשב עבור כל שבוע את טביעת הרגל הפחמנית
-                //apply the formula for carbon footprint for each list
-                //sum every week 
-                DateTime then = context.UsersData
-                    .Where(d => /** d.CategoryId ==  categoryId  && **/ d.UserName.Equals(userName))
-                    .FirstOrDefault().DateT;
-                TimeSpan ts = today.Subtract(then);
-                if (ts.Days < 7 || (int)today.DayOfWeek >= (int)then.DayOfWeek)
+               
+                DateTime firstWeekStartDay = today.AddDays(1 - (int)today.DayOfWeek);
+                    
+                
+                DateTime secondWeekStartDay = firstWeekStartDay.AddDays(-7);
+
+                DateTime thirdWeekStartDay = secondWeekStartDay.AddDays(-7);
+
+                DateTime fourthWeekStartDay = thirdWeekStartDay.AddDays(-7);
+
+                //get the data of each week
+
+                List<UsersDatum> firstWeek = context.UsersData.Where(d => (d.DateT - firstWeekStartDay).TotalDays < 7 && firstWeekStartDay.DayOfWeek <= d.DateT.DayOfWeek
+                && d.UserName.Equals(userName)).ToList();
+
+                List<UsersDatum> secondWeek = context.UsersData.Where(d => (d.DateT - secondWeekStartDay).TotalDays < 7 && secondWeekStartDay.DayOfWeek <= d.DateT.DayOfWeek
+                && d.UserName.Equals(userName)).ToList();
+
+                List<UsersDatum> thirdWeek = context.UsersData.Where(d => (d.DateT - thirdWeekStartDay).TotalDays < 7 && thirdWeekStartDay.DayOfWeek <= d.DateT.DayOfWeek
+                && d.UserName.Equals(userName)).ToList();
+
+                List<UsersDatum> fourthWeek = context.UsersData.Where(d => (d.DateT - fourthWeekStartDay).TotalDays < 7 && fourthWeekStartDay.DayOfWeek <= d.DateT.DayOfWeek
+                && d.UserName.Equals(userName)).ToList();
+                //calculate the sum of the carbon footprint
+
+               double footprintSum = 0; 
+               foreach (UsersDatum ud in firstWeek)
+               {
+                    footprintSum += (double)ud.CarbonFootprint; 
+               }
+
+                GraphItem first = new GraphItem
                 {
-                    //הנתון קיים ואפשר להכניס אותו
+                    DateGraph = firstWeekStartDay,
+                    ValueFootPrint = footprintSum,
+                };
+
+                footprintSum = 0; 
+                foreach (UsersDatum ud in secondWeek)
+                {
+                    footprintSum += (double)ud.CarbonFootprint;
                 }
 
-                    
+                GraphItem second = new GraphItem
+                {
+                    DateGraph = secondWeekStartDay,
+                    ValueFootPrint = footprintSum,
+                };
+
+                footprintSum = 0;
+                foreach (UsersDatum ud in thirdWeek)
+                {
+                    footprintSum += (double)ud.CarbonFootprint;
+                }
+
+                GraphItem third = new GraphItem
+                {
+                    DateGraph = thirdWeekStartDay,
+                    ValueFootPrint = footprintSum,
+                };
+
+                footprintSum = 0;
+                foreach (UsersDatum ud in fourthWeek)
+                {
+                    footprintSum += (double)ud.CarbonFootprint;
+                }
+
+                GraphItem fourth = new GraphItem
+                {
+                    DateGraph = fourthWeekStartDay,
+                    ValueFootPrint = footprintSum,
+                };
+
+
+
+                List<GraphItem> graphItems = new List<GraphItem>();
+                graphItems.Add(first);
+                graphItems.Add(second);
+                graphItems.Add(third);
+                graphItems.Add(fourth);
 
                 //return a list of every week carbon footprint data
-                return null; 
+                return graphItems; 
             }
             catch (Exception e)
             {

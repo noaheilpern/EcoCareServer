@@ -20,6 +20,7 @@ namespace EcoCareServer.Models
         public virtual DbSet<Country> Countries { get; set; }
         public virtual DbSet<DatasCategory> DatasCategories { get; set; }
         public virtual DbSet<Goal> Goals { get; set; }
+        public virtual DbSet<GraphItem> GraphItems { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<RegularUser> RegularUsers { get; set; }
         public virtual DbSet<Sale> Sales { get; set; }
@@ -43,37 +44,37 @@ namespace EcoCareServer.Models
             modelBuilder.Entity<Country>(entity =>
             {
                 entity.HasKey(e => e.CountryName)
-                    .HasName("PK__Countrie__E056F200EC6CA3C2");
+                    .HasName("PK__Countrie__E056F200FC455969");
             });
 
             modelBuilder.Entity<DatasCategory>(entity =>
             {
                 entity.HasKey(e => e.CategoryId)
-                    .HasName("PK__DatasCat__19093A0B422BBF95");
+                    .HasName("PK__DatasCat__19093A0BA296769F");
             });
 
             modelBuilder.Entity<Goal>(entity =>
             {
                 entity.HasKey(e => e.DateT)
-                    .HasName("PK__Goals__BFFD85735444A418");
+                    .HasName("PK__Goals__BFFD85733CAE6C75");
 
                 entity.HasOne(d => d.UserNameNavigation)
                     .WithMany(p => p.Goals)
                     .HasForeignKey(d => d.UserName)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Goals__UserName__398D8EEE");
+                    .HasConstraintName("FK__Goals__UserName__3A81B327");
             });
 
             modelBuilder.Entity<RegularUser>(entity =>
             {
                 entity.HasKey(e => e.UserName)
-                    .HasName("PK__RegularU__C9F28457EA54DC8D");
+                    .HasName("PK__RegularU__C9F2845747183A29");
 
                 entity.HasOne(d => d.UserNameNavigation)
                     .WithOne(p => p.RegularUser)
                     .HasForeignKey<RegularUser>(d => d.UserName)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__RegularUs__UserN__29572725");
+                    .HasConstraintName("FK__RegularUs__UserN__2A4B4B5E");
             });
 
             modelBuilder.Entity<Sale>(entity =>
@@ -84,55 +85,55 @@ namespace EcoCareServer.Models
                     .WithMany(p => p.Sales)
                     .HasForeignKey(d => d.BuyerUserName)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Sales__BuyerUser__2F10007B");
+                    .HasConstraintName("FK__Sales__BuyerUser__300424B4");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.Sales)
                     .HasForeignKey(d => d.ProductId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Sales__ProductId__30F848ED");
+                    .HasConstraintName("FK__Sales__ProductId__31EC6D26");
 
                 entity.HasOne(d => d.SellerUserNameNavigation)
                     .WithMany(p => p.Sales)
                     .HasForeignKey(d => d.SellerUserName)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Sales__SellerUse__300424B4");
+                    .HasConstraintName("FK__Sales__SellerUse__30F848ED");
             });
 
             modelBuilder.Entity<Seller>(entity =>
             {
                 entity.HasKey(e => e.UserName)
-                    .HasName("PK__Seller__C9F284573E7EB23E");
+                    .HasName("PK__Seller__C9F28457CE6BAC5A");
 
                 entity.HasOne(d => d.UserNameNavigation)
                     .WithOne(p => p.Seller)
                     .HasForeignKey<Seller>(d => d.UserName)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Seller__UserName__2C3393D0");
+                    .HasConstraintName("FK__Seller__UserName__2D27B809");
             });
 
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasKey(e => e.UserName)
-                    .HasName("PK__Users__C9F284579FC096C5");
+                    .HasName("PK__Users__C9F28457A927A7A6");
             });
 
             modelBuilder.Entity<UsersDatum>(entity =>
             {
                 entity.HasKey(e => new { e.DateT, e.CategoryId, e.UserName })
-                    .HasName("PK__UsersDat__48A4E457B7C1E23B");
+                    .HasName("PK__UsersDat__48A4E457A90DB5B6");
 
                 entity.HasOne(d => d.Category)
                     .WithMany(p => p.UsersData)
                     .HasForeignKey(d => d.CategoryId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__UsersData__Categ__35BCFE0A");
+                    .HasConstraintName("FK__UsersData__Categ__36B12243");
 
                 entity.HasOne(d => d.UserNameNavigation)
                     .WithMany(p => p.UsersData)
                     .HasForeignKey(d => d.UserName)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__UsersData__UserN__36B12243");
+                    .HasConstraintName("FK__UsersData__UserN__37A5467C");
             });
 
             OnModelCreatingPartial(modelBuilder);
