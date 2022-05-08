@@ -347,6 +347,16 @@ INSERT INTO Product values('Zoi Gift Card 50$', 2000, 'A great greek restaurnt i
 Go
 
 
+CREATE TABLE UsersData(
+	CategoryId int not null references DatasCategories,
+	CategoryValue float not null,
+	CarbonFootprint float, 
+    DateT Date not null,
+    UserName nvarchar(255) references RegularUser not null,
+	primary key (DateT, CategoryId, UserName),
+);
+
+
  
  SELECT * FROM RegularUser
 Go
