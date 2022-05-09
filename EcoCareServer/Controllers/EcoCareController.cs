@@ -577,6 +577,7 @@ namespace EcoCareServer.Controllers
 
                 //get the data of each week
 
+                //לחבדוק בעצמי את התנאים
                 List<UsersDatum> firstWeek = context.UsersData.Where(d => (d.DateT - firstWeekStartDay).TotalDays < 7 && firstWeekStartDay.DayOfWeek <= d.DateT.DayOfWeek
                 && d.UserName.Equals(userName)).ToList();
 
