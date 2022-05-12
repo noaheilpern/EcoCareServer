@@ -210,13 +210,13 @@ namespace EcoCareServer.Controllers
             {
                 switch(data.CategoryId)
                 {
-                    case 0:
+                    case 1:
                         data.CarbonFootprint = data.CategoryValue * Constants.MEAT_EMISSION_FACTOR;
                         break;
-                    case 1:
+                    case 2:
                         data.CarbonFootprint = data.CategoryValue * Constants.AVERAGE_CAR_EMISSION;
                         break;
-                    case 2:
+                    case 3:
                         data.CarbonFootprint = data.CategoryValue * ef;
                         break;
                 }
@@ -578,17 +578,21 @@ namespace EcoCareServer.Controllers
                 //get the data of each week
 
                 //לחבדוק בעצמי את התנאים
-                List<UsersDatum> firstWeek = context.UsersData.Where(d => (d.DateT - firstWeekStartDay).TotalDays < 7 && firstWeekStartDay.DayOfWeek <= d.DateT.DayOfWeek
-                && d.UserName.Equals(userName)).ToList();
+                List<UsersDatum> data = context.UsersData.Where(d => d.UserName.Equals(userName)).ToList();
 
-                List<UsersDatum> secondWeek = context.UsersData.Where(d => (d.DateT - secondWeekStartDay).TotalDays < 7 && secondWeekStartDay.DayOfWeek <= d.DateT.DayOfWeek
-                && d.UserName.Equals(userName)).ToList();
-
-                List<UsersDatum> thirdWeek = context.UsersData.Where(d => (d.DateT - thirdWeekStartDay).TotalDays < 7 && thirdWeekStartDay.DayOfWeek <= d.DateT.DayOfWeek
-                && d.UserName.Equals(userName)).ToList();
-
-                List<UsersDatum> fourthWeek = context.UsersData.Where(d => (d.DateT - fourthWeekStartDay).TotalDays < 7 && fourthWeekStartDay.DayOfWeek <= d.DateT.DayOfWeek
-                && d.UserName.Equals(userName)).ToList();
+                List<UsersDatum> firstWeek = new List<UsersDatum>(), secondWeek = new List<UsersDatum>(), thirdWeek = new List<UsersDatum>(), fourthWeek = new List<UsersDatum>();
+              
+                foreach(UsersDatum d in data)
+                {
+                    if ((d.DateT - firstWeekStartDay).TotalDays < 7 && firstWeekStartDay.DayOfWeek <= d.DateT.DayOfWeek)
+                        firstWeek.Add(d);
+                    if ((d.DateT - secondWeekStartDay).TotalDays < 7 && secondWeekStartDay.DayOfWeek <= d.DateT.DayOfWeek)
+                        secondWeek.Add(d);
+                    if ((d.DateT - thirdWeekStartDay).TotalDays < 7 && thirdWeekStartDay.DayOfWeek <= d.DateT.DayOfWeek)
+                        thirdWeek.Add(d);
+                    if ((d.DateT - fourthWeekStartDay).TotalDays < 7 && fourthWeekStartDay.DayOfWeek <= d.DateT.DayOfWeek)
+                        fourthWeek.Add(d);
+                }
                 //calculate the sum of the carbon footprint
 
                double footprintSum = 0; 
