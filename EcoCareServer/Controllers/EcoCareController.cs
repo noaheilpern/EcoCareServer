@@ -570,7 +570,42 @@ namespace EcoCareServer.Controllers
 
 
         }
-        
+
+        //[Route("CalcCarbonFootprint")]
+        //[HttpGet]
+        private void CalcCarbonFootprint(UsersDatum u, double ef)
+        {
+            if (u != null)
+            {
+                switch (u.CategoryId)
+                {
+                    case 1:
+                        u.CarbonFootprint = u.CategoryValue * Constants.MEAT_EMISSION_FACTOR;
+                        break;
+                    case 2:
+                        u.CarbonFootprint = u.CategoryValue * Constants.AVERAGE_CAR_EMISSION;
+                        break;
+                    case 3:
+                        u.CarbonFootprint = u.CategoryValue * ef;
+                        break;
+                    default:
+                        u.CarbonFootprint = null;
+                        break;
+
+
+                }
+                this.context.UpdateData(u);
+                HttpContext.Session.SetObject("theData", u);
+                Response.StatusCode = (int)System.Net.HttpStatusCode.OK;
+                context.SaveChanges();
+            }
+
+            else
+            {
+                Response.StatusCode = (int)System.Net.HttpStatusCode.Forbidden;
+            }
+        }
+
         [Route ("GetUserGraphsData")]
         [HttpGet]
         public List<GraphItem> GetUserGraphsData([FromQuery] string userName)
@@ -604,6 +639,8 @@ namespace EcoCareServer.Controllers
               
                 foreach(UsersDatum d in data)
                 {
+                    if (d.CarbonFootprint == null)
+                        CalcCarbonFootprint(d,GetEF(d.UserNameNavigation.UserNameNavigation.Country));
                     if ((d.DateT - firstWeekStartDay).TotalDays < 7 && (d.DateT - firstWeekStartDay).TotalDays >= 0)
                         firstWeek.Add(d);
                     if ((d.DateT - secondWeekStartDay).TotalDays < 7 && (d.DateT - secondWeekStartDay).TotalDays >= 0)

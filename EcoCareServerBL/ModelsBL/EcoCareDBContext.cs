@@ -66,5 +66,11 @@ namespace EcoCareServerBL.Models
             this.RegularUsers.Update(ru);
             this.SaveChanges();
         }
+        public void UpdateData(UsersDatum u)
+        {
+            this.UsersData.Update(u);
+
+            this.SaveChanges(); 
+        }
     }
 }
