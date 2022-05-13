@@ -12,6 +12,10 @@ namespace EcoCareServer.Controllers
     {
         public const double MEAT_EMISSION_FACTOR = 7.726;
         public const double AVERAGE_CAR_EMISSION = 0.1684;
+        public const int WORK_DAYS = 5;
+        public const int DAYS_A_WEEK = 7;
+        public const double WEEKS_A_MONTH = 4; 
+        
     }
 
     [Route("EcoCareAPI")]
@@ -200,7 +204,13 @@ namespace EcoCareServer.Controllers
                 return false;
             }
         }
+        [Route("GetEF")]
+        [HttpGet]
+        public double GetEF(string country)
+        {
+            return context.Countries.Where(c => c.CountryName.Equals(country)).FirstOrDefault().Ef; 
 
+        }
         [Route("AddData")]
         [HttpPost]
 
@@ -269,7 +279,12 @@ namespace EcoCareServer.Controllers
 
             if (u != null)
             {
-                this.context.AddRegularUser(u);
+                double carbonFootprint = 0;
+                carbonFootprint += Constants.AVERAGE_CAR_EMISSION * Constants.WORK_DAYS * 2 * u.DistanceToWork;
+                carbonFootprint += Constants.MEAT_EMISSION_FACTOR * Constants.DAYS_A_WEEK * u.InitialMeatsMeals;
+                carbonFootprint += u.LastElectricityBill / 4 * GetEF(u.UserNameNavigation.Country);
+                //u.UserCarebonFootprint = carbonFootprint; 
+                        this.context.AddRegularUser(u);
                 HttpContext.Session.SetObject("theUser", u);
                 Response.StatusCode = (int)System.Net.HttpStatusCode.OK;
                 context.SaveChanges();

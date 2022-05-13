@@ -347,16 +347,18 @@ INSERT INTO Product values('Zoi Gift Card 50$', 2000, 'A great greek restaurnt i
 Go
 
 
-CREATE TABLE UsersData(
-	CategoryId int not null references DatasCategories,
-	CategoryValue float not null,
-	CarbonFootprint float, 
-    DateT Date not null,
-    UserName nvarchar(255) references RegularUser not null,
-	primary key (DateT, CategoryId, UserName),
-);
+INSERT INTO UsersData values(1,7,null, '2022-5-6', 'noa') 
+INSERT INTO UsersData values(2, 100, null, '2022-5-4', 'noa') 
+INSERT INTO UsersData VALUES(3, 200, null, '2022-5-7', 'noa')
+
+INSERT INTO UsersData VALUES(1, 5, null, '2022-5-12', 'noa')
+INSERT INTO UsersData VALUES(2, 70, null, '2022-5-13', 'noa')
+INSERT INTO UsersData VALUES(3,250,null,'2022-5-13', 'noa')
 
 
  
+ALTER TABLE RegularUser
+ADD UserCarbonFootPrint float;
+
  SELECT * FROM RegularUser
 Go
