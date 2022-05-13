@@ -219,6 +219,11 @@ namespace EcoCareServer.Controllers
                     case 3:
                         data.CarbonFootprint = data.CategoryValue * ef;
                         break;
+                    default:
+                        data.CarbonFootprint = 0;
+                        break; 
+
+
                 }
                 this.context.AddData(data);
                 HttpContext.Session.SetObject("theData", data);
@@ -566,7 +571,7 @@ namespace EcoCareServer.Controllers
                 //calculate first day of each week
                 DateTime today = DateTime.Today;
                
-                DateTime firstWeekStartDay = today.AddDays(1 - (int)today.DayOfWeek);
+                DateTime firstWeekStartDay = today.AddDays(-(int)today.DayOfWeek);
                     
                 
                 DateTime secondWeekStartDay = firstWeekStartDay.AddDays(-7);
@@ -584,13 +589,13 @@ namespace EcoCareServer.Controllers
               
                 foreach(UsersDatum d in data)
                 {
-                    if ((d.DateT - firstWeekStartDay).TotalDays < 7 && firstWeekStartDay.DayOfWeek <= d.DateT.DayOfWeek)
+                    if ((d.DateT - firstWeekStartDay).TotalDays < 7 && (d.DateT - firstWeekStartDay).TotalDays >= 0)
                         firstWeek.Add(d);
-                    if ((d.DateT - secondWeekStartDay).TotalDays < 7 && secondWeekStartDay.DayOfWeek <= d.DateT.DayOfWeek)
+                    if ((d.DateT - secondWeekStartDay).TotalDays < 7 && (d.DateT - secondWeekStartDay).TotalDays >= 0)
                         secondWeek.Add(d);
-                    if ((d.DateT - thirdWeekStartDay).TotalDays < 7 && thirdWeekStartDay.DayOfWeek <= d.DateT.DayOfWeek)
+                    if ((d.DateT - thirdWeekStartDay).TotalDays < 7 && (d.DateT - thirdWeekStartDay).TotalDays >= 0)
                         thirdWeek.Add(d);
-                    if ((d.DateT - fourthWeekStartDay).TotalDays < 7 && fourthWeekStartDay.DayOfWeek <= d.DateT.DayOfWeek)
+                    if ((d.DateT - fourthWeekStartDay).TotalDays < 7 && (d.DateT - fourthWeekStartDay).TotalDays >= 0)
                         fourthWeek.Add(d);
                 }
                 //calculate the sum of the carbon footprint
@@ -603,31 +608,34 @@ namespace EcoCareServer.Controllers
 
                 GraphItem first = new GraphItem
                 {
-                    DateGraph = firstWeekStartDay,
+                    DateGraph = firstWeekStartDay.Date,
                     ValueFootPrint = footprintSum,
                 };
 
                 footprintSum = 0; 
                 foreach (UsersDatum ud in secondWeek)
                 {
-                    footprintSum += (double)ud.CarbonFootprint;
+                    if (ud.CarbonFootprint != null)
+                        footprintSum += (double)ud.CarbonFootprint;
                 }
 
                 GraphItem second = new GraphItem
                 {
-                    DateGraph = secondWeekStartDay,
+                    DateGraph = secondWeekStartDay.Date,
                     ValueFootPrint = footprintSum,
                 };
 
                 footprintSum = 0;
                 foreach (UsersDatum ud in thirdWeek)
                 {
-                    footprintSum += (double)ud.CarbonFootprint;
+                    if(ud.CarbonFootprint != null)
+                        footprintSum += (double)ud.CarbonFootprint;
+
                 }
 
                 GraphItem third = new GraphItem
                 {
-                    DateGraph = thirdWeekStartDay,
+                    DateGraph = thirdWeekStartDay.Date,
                     ValueFootPrint = footprintSum,
                 };
 
@@ -639,7 +647,7 @@ namespace EcoCareServer.Controllers
 
                 GraphItem fourth = new GraphItem
                 {
-                    DateGraph = fourthWeekStartDay,
+                    DateGraph = fourthWeekStartDay.Date,
                     ValueFootPrint = footprintSum,
                 };
 
