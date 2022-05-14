@@ -640,7 +640,11 @@ namespace EcoCareServer.Controllers
                 foreach(UsersDatum d in data)
                 {
                     if (d.CarbonFootprint == null)
-                        CalcCarbonFootprint(d,GetEF(d.UserNameNavigation.UserNameNavigation.Country));
+                    {
+                        User u = context.Users.Where(u => u.UserName.Equals(d.UserName)).FirstOrDefault();
+                        CalcCarbonFootprint(d, GetEF(u.Country)); 
+
+                    }
                     if ((d.DateT - firstWeekStartDay).TotalDays < 7 && (d.DateT - firstWeekStartDay).TotalDays >= 0)
                         firstWeek.Add(d);
                     if ((d.DateT - secondWeekStartDay).TotalDays < 7 && (d.DateT - secondWeekStartDay).TotalDays >= 0)
