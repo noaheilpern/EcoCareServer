@@ -211,6 +211,21 @@ namespace EcoCareServer.Controllers
             return context.Countries.Where(c => c.CountryName.Equals(country)).FirstOrDefault().Ef; 
 
         }
+
+        [Route("CalculateCarbonFootprint")]
+        [HttpPost]
+
+        //calculates the carbon footprint of the user and the goals for his carbon footprint
+
+        private double CalculateCarbonFootprint(RegularUser user)
+        {
+            double userFootprint = 0;
+            userFootprint += user.InitialMeatsMeals * Constants.MEAT_EMISSION_FACTOR;
+            userFootprint += user.DistanceToWork * Constants.DAYS_A_WEEK * 2 * Constants.AVERAGE_CAR_EMISSION;
+
+
+            return 0; 
+        }
         [Route("AddData")]
         [HttpPost]
 
