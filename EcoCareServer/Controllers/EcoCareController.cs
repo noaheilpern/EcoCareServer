@@ -24,7 +24,7 @@ namespace EcoCareServer.Controllers
     {
         #region Add connection to the db context using dependency injection
         EcoCareDBContext context;
-        public EcoCareController(EcoCareDBContext context)
+       public EcoCareController(EcoCareDBContext context)
         {
             this.context = context;
         }
@@ -298,7 +298,7 @@ namespace EcoCareServer.Controllers
                 carbonFootprint += Constants.AVERAGE_CAR_EMISSION * Constants.WORK_DAYS * 2 * u.DistanceToWork;
                 carbonFootprint += Constants.MEAT_EMISSION_FACTOR * Constants.DAYS_A_WEEK * u.InitialMeatsMeals;
                 carbonFootprint += u.LastElectricityBill / 4 * GetEF(u.UserNameNavigation.Country);
-                //u.UserCarebonFootprint = carbonFootprint; 
+                u.UserCarbonFootPrint = carbonFootprint; 
                         this.context.AddRegularUser(u);
                 HttpContext.Session.SetObject("theUser", u);
                 Response.StatusCode = (int)System.Net.HttpStatusCode.OK;
@@ -633,6 +633,11 @@ namespace EcoCareServer.Controllers
                     Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
                     return null;
                 }
+                //the user start foot print
+
+                RegularUser ru = context.RegularUsers.Where(u => u.UserName.Equals(userName)).FirstOrDefault();
+                double startFootPrint = (double)ru.UserCarbonFootPrint;
+               //אם שווה null לטפל
                 //calculate first day of each week
                 DateTime today = DateTime.Today;
                
@@ -680,7 +685,7 @@ namespace EcoCareServer.Controllers
                 GraphItem first = new GraphItem
                 {
                     DateGraph = firstWeekStartDay.Date,
-                    ValueFootPrint = footprintSum,
+                    ValueFootPrint = startFootPrint - footprintSum,
                 };
 
                 footprintSum = 0; 
@@ -693,7 +698,7 @@ namespace EcoCareServer.Controllers
                 GraphItem second = new GraphItem
                 {
                     DateGraph = secondWeekStartDay.Date,
-                    ValueFootPrint = footprintSum,
+                    ValueFootPrint = startFootPrint - footprintSum,
                 };
 
                 footprintSum = 0;
@@ -707,7 +712,7 @@ namespace EcoCareServer.Controllers
                 GraphItem third = new GraphItem
                 {
                     DateGraph = thirdWeekStartDay.Date,
-                    ValueFootPrint = footprintSum,
+                    ValueFootPrint = startFootPrint - footprintSum,
                 };
 
                 footprintSum = 0;
@@ -719,7 +724,7 @@ namespace EcoCareServer.Controllers
                 GraphItem fourth = new GraphItem
                 {
                     DateGraph = fourthWeekStartDay.Date,
-                    ValueFootPrint = footprintSum,
+                    ValueFootPrint = startFootPrint - footprintSum,
                 };
 
 

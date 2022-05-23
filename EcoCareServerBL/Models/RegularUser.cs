@@ -33,6 +33,7 @@ namespace EcoCareServerBL.Models
         public double LastElectricityBill { get; set; }
         public int PeopleAtTheHousehold { get; set; }
         public int? Stars { get; set; }
+        public double? UserCarbonFootPrint { get; set; }
 
         [ForeignKey(nameof(UserName))]
         [InverseProperty(nameof(User.RegularUser))]
