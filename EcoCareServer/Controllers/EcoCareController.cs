@@ -730,6 +730,7 @@ namespace EcoCareServer.Controllers
 
 
                 List<GraphItem> graphItems = new List<GraphItem>();
+                
                 graphItems.Add(first);
                 graphItems.Add(second);
                 graphItems.Add(third);

@@ -53,6 +53,7 @@ CREATE TABLE RegularUser(
     LastElectricityBill float not null,
     PeopleAtTheHousehold int not null,
 	Stars int,
+	UserCarbonFootPrint float not null, 
 
 );
 
@@ -314,11 +315,15 @@ Go
 
 
 INSERT INTO DatasCategories Values('Meat_Meals')
- INSERT INTO DatasCategories Values('Distance')
-  INSERT INTO DatasCategories Values('Electricity_Usage')
+GO
+INSERT INTO DatasCategories Values('Distance')
+GO
+INSERT INTO DatasCategories Values('Electricity_Usage')
+GO
 
 
  
+
 
 INSERT INTO Users VALUES('noa', 'noa@gmail.com', '123456' , 'Noa', 'Heilpern', '0', 'Israel')
 INSERT into RegularUser Values('noa', '2016-08-27','7'
@@ -328,7 +333,7 @@ INSERT into RegularUser Values('noa', '2016-08-27','7'
            ,'0.5'
            ,'234'
            ,'6', '0', 
-		   '3,000')
+		   '30000')
 
 INSERT INTO Product values('Ice Cream', 300, 'A very good ice cream from Golda', 'https://getgolda.co.il/wp-content/uploads/sites/56/2020/03/png-02.png',
 1, 'Golda')
@@ -358,8 +363,6 @@ INSERT INTO UsersData VALUES(3,250,null,'2022-5-13', 'noa')
 
 
  
-ALTER TABLE RegularUser
-ADD UserCarbonFootPrint float;
 
  SELECT * FROM RegularUser
 Go
