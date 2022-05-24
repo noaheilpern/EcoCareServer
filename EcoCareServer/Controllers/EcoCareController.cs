@@ -481,6 +481,8 @@ namespace EcoCareServer.Controllers
         {
             try
             {
+                //gets the sales list 
+
                 //calculate first day of each week
                 DateTime today = DateTime.Today;
 
