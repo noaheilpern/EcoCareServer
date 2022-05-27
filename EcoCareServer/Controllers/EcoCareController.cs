@@ -481,8 +481,7 @@ namespace EcoCareServer.Controllers
         {
             try
             {
-                //gets the sales list 
-
+                
                 //calculate first day of each week
                 DateTime today = DateTime.Today;
 
@@ -678,17 +677,25 @@ namespace EcoCareServer.Controllers
                 }
                 //calculate the sum of the carbon footprint
 
-               double footprintSum = 0; 
-               foreach (UsersDatum ud in firstWeek)
+               double footprintSum = 0;
+                List<GraphItem> graphItems = new List<GraphItem>();
+
+                foreach (UsersDatum ud in firstWeek)
                {
                     footprintSum += (double)ud.CarbonFootprint; 
                }
 
-                GraphItem first = new GraphItem
+                if (footprintSum > 0)
                 {
-                    DateGraph = firstWeekStartDay.Date,
-                    ValueFootPrint = startFootPrint - footprintSum,
-                };
+                    GraphItem first = new GraphItem
+                    {
+                        DateGraph = firstWeekStartDay.Date,
+
+                        ValueFootPrint = startFootPrint - footprintSum,
+                    };
+                    graphItems.Add(first);
+
+                }
 
                 footprintSum = 0; 
                 foreach (UsersDatum ud in secondWeek)
@@ -697,11 +704,17 @@ namespace EcoCareServer.Controllers
                         footprintSum += (double)ud.CarbonFootprint;
                 }
 
-                GraphItem second = new GraphItem
+                if (footprintSum > 0)
                 {
-                    DateGraph = secondWeekStartDay.Date,
-                    ValueFootPrint = startFootPrint - footprintSum,
-                };
+                    GraphItem second = new GraphItem
+                    {
+                        DateGraph = secondWeekStartDay.Date,
+                        ValueFootPrint = startFootPrint - footprintSum,
+                    };
+                    graphItems.Add(second);
+
+
+                }
 
                 footprintSum = 0;
                 foreach (UsersDatum ud in thirdWeek)
@@ -710,12 +723,16 @@ namespace EcoCareServer.Controllers
                         footprintSum += (double)ud.CarbonFootprint;
 
                 }
-
-                GraphItem third = new GraphItem
+                if (footprintSum > 0)
                 {
-                    DateGraph = thirdWeekStartDay.Date,
-                    ValueFootPrint = startFootPrint - footprintSum,
-                };
+                    GraphItem third = new GraphItem
+                    {
+                        DateGraph = thirdWeekStartDay.Date,
+                        ValueFootPrint = startFootPrint - footprintSum,
+                    };
+                    graphItems.Add(third);
+
+                }
 
                 footprintSum = 0;
                 foreach (UsersDatum ud in fourthWeek)
@@ -723,20 +740,17 @@ namespace EcoCareServer.Controllers
                     footprintSum += (double)ud.CarbonFootprint;
                 }
 
-                GraphItem fourth = new GraphItem
+                if (footprintSum > 0)
                 {
-                    DateGraph = fourthWeekStartDay.Date,
-                    ValueFootPrint = startFootPrint - footprintSum,
-                };
+                    GraphItem fourth = new GraphItem
+                    {
+                        DateGraph = fourthWeekStartDay.Date,
+                        ValueFootPrint = startFootPrint - footprintSum,
+                    };
+                    graphItems.Add(fourth);
 
+                }
 
-
-                List<GraphItem> graphItems = new List<GraphItem>();
-                
-                graphItems.Add(first);
-                graphItems.Add(second);
-                graphItems.Add(third);
-                graphItems.Add(fourth);
 
                 //return a list of every week carbon footprint data
                 return graphItems; 
