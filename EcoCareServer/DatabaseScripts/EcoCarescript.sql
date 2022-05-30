@@ -366,3 +366,4 @@ INSERT INTO UsersData VALUES(3,250,null,'2022-5-13', 'noa')
 
  SELECT * FROM RegularUser
 Go
+select * from Users
