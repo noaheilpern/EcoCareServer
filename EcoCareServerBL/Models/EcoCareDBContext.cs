@@ -44,19 +44,19 @@ namespace EcoCareServerBL.Models
             modelBuilder.Entity<Country>(entity =>
             {
                 entity.HasKey(e => e.CountryName)
-                    .HasName("PK__Countrie__E056F2008338B70D");
+                    .HasName("PK__Countrie__E056F2008DDD5D88");
             });
 
             modelBuilder.Entity<DatasCategory>(entity =>
             {
                 entity.HasKey(e => e.CategoryId)
-                    .HasName("PK__DatasCat__19093A0B9EE94A19");
+                    .HasName("PK__DatasCat__19093A0BF81182D5");
             });
 
             modelBuilder.Entity<Goal>(entity =>
             {
                 entity.HasKey(e => e.DateT)
-                    .HasName("PK__Goals__BFFD857398DE1543");
+                    .HasName("PK__Goals__BFFD857395726FD9");
 
                 entity.HasOne(d => d.UserNameNavigation)
                     .WithMany(p => p.Goals)
@@ -68,7 +68,7 @@ namespace EcoCareServerBL.Models
             modelBuilder.Entity<RegularUser>(entity =>
             {
                 entity.HasKey(e => e.UserName)
-                    .HasName("PK__RegularU__C9F28457D101EAED");
+                    .HasName("PK__RegularU__C9F284579A368C87");
 
                 entity.HasOne(d => d.UserNameNavigation)
                     .WithOne(p => p.RegularUser)
@@ -103,7 +103,7 @@ namespace EcoCareServerBL.Models
             modelBuilder.Entity<Seller>(entity =>
             {
                 entity.HasKey(e => e.UserName)
-                    .HasName("PK__Seller__C9F28457F165C020");
+                    .HasName("PK__Seller__C9F2845789D8F3B9");
 
                 entity.HasOne(d => d.UserNameNavigation)
                     .WithOne(p => p.Seller)
@@ -115,7 +115,7 @@ namespace EcoCareServerBL.Models
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasKey(e => e.UserName)
-                    .HasName("PK__Users__C9F284576620D617");
+                    .HasName("PK__Users__C9F28457C807F97D");
 
                 entity.HasOne(d => d.CountryNavigation)
                     .WithMany(p => p.Users)
@@ -127,7 +127,7 @@ namespace EcoCareServerBL.Models
             modelBuilder.Entity<UsersDatum>(entity =>
             {
                 entity.HasKey(e => new { e.DateT, e.CategoryId, e.UserName })
-                    .HasName("PK__UsersDat__48A4E4573EA6C37C");
+                    .HasName("PK__UsersDat__48A4E457D65128D1");
 
                 entity.HasOne(d => d.Category)
                     .WithMany(p => p.UsersData)

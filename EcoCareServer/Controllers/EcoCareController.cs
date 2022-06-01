@@ -14,8 +14,9 @@ namespace EcoCareServer.Controllers
         public const double AVERAGE_CAR_EMISSION = 0.1684;
         public const int WORK_DAYS = 5;
         public const int DAYS_A_WEEK = 7;
-        public const double WEEKS_A_MONTH = 4; 
-        
+        public const double WEEKS_A_MONTH = 4;
+        public const int STARS_PER_10_PRECENT = 50; 
+
     }
 
     [Route("EcoCareAPI")]
@@ -233,16 +234,47 @@ namespace EcoCareServer.Controllers
         {
             if (data != null)
             {
-                switch(data.CategoryId)
+                int newStars = 0; 
+                List<UsersDatum> l = context.UsersData.Where(d => d.CategoryId == data.CategoryId).OrderByDescending(u => u.DateT).ToList();
+                double average = (l[0].CategoryValue + l[1].CategoryValue + l[2].CategoryValue) / 3.0;
+                RegularUser ru = GetUserData(data.UserName).RegularUser;
+
+                switch (data.CategoryId)
                 {
                     case 1:
                         data.CarbonFootprint = data.CategoryValue * Constants.MEAT_EMISSION_FACTOR;
+                        if(data.CategoryValue < 5)
+                        {
+                            // we multiple by 100 because it is n
+                            double stars = Constants.STARS_PER_10_PRECENT * (1 - data.CategoryValue / 5) * 10;
+                            newStars = (int)stars;
+                        }
+                        else if(data.CategoryValue < average)
+                        {
+                            newStars = (int)((1 - (data.CategoryValue / average)) * 10 * Constants.STARS_PER_10_PRECENT);
+                        }
                         break;
                     case 2:
                         data.CarbonFootprint = data.CategoryValue * Constants.AVERAGE_CAR_EMISSION;
+                        if (data.CategoryValue < Constants.WORK_DAYS * 2 * ru.DistanceToWork)
+                        {
+                            //יתוגמל פי 2
+                        }
+                        else if(data.CategoryValue < average)
+                        {
+                            //יתוגמל רגיל
+                        }
+                         
                         break;
                     case 3:
                         data.CarbonFootprint = data.CategoryValue * ef;
+
+                        switch(ru.PeopleAtTheHousehold)
+                        {
+                            case 1:
+                            case 2:
+
+                        }
                         break;
                     default:
                         data.CarbonFootprint = 0;
@@ -473,7 +505,7 @@ namespace EcoCareServer.Controllers
             return null;
 
         }
-
+        [Route("GetMa")]
         [Route ("GetSellerGraphsData")]
         [HttpGet]
 

@@ -86,11 +86,6 @@ CREATE TABLE UsersData(
 	primary key (DateT, CategoryId, UserName),
 );
 
-CREATE TABLE Goals(
-    DateT date primary key not null,
-    Goal int not null,
-    UserName nvarchar(255) foreign key references RegularUser not null,
-);
 
 USE [EcoCareDB]
 GO
