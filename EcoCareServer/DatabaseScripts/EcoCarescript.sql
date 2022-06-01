@@ -335,6 +335,20 @@ INSERT into RegularUser Values('noa', '2016-08-27','7'
            ,'6', '0', 
 		   '30000')
 
+
+		   
+
+INSERT INTO Users VALUES('hadar', 'h@gmail.com', '123456' , 'Hadar', 'Simon', '0', 'Israel')
+INSERT into RegularUser Values('hadar', '2016-04-11','7'
+			,'0'
+           ,'0'
+           ,'walking'
+           ,'0.5'
+           ,'234'
+           ,'6', '10000', 
+		   '30000')
+GO
+
 INSERT INTO Product values('Ice Cream', 300, 'A very good ice cream from Golda', 'https://getgolda.co.il/wp-content/uploads/sites/56/2020/03/png-02.png',
 1, 'Golda')
 Go
