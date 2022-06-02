@@ -15,7 +15,15 @@ namespace EcoCareServer.Controllers
         public const int WORK_DAYS = 5;
         public const int DAYS_A_WEEK = 7;
         public const double WEEKS_A_MONTH = 4;
-        public const int STARS_PER_10_PRECENT = 50; 
+        public const int STARS_PER_10_PRECENT = 50;
+        public const int HOUSE_HOLD_OF_1_2 = 2000;
+        public const int HOUSE_HOLD_OF_3_4 = 3000;
+        public const int HOUSE_HOLD_OF_5_6 = 4800;
+        public const int HOUSE_HOLD_OF_7_PLUS = 7000;
+
+
+
+
 
     }
 
@@ -236,7 +244,19 @@ namespace EcoCareServer.Controllers
             {
                 int newStars = 0; 
                 List<UsersDatum> l = context.UsersData.Where(d => d.CategoryId == data.CategoryId).OrderByDescending(u => u.DateT).ToList();
-                double average = (l[0].CategoryValue + l[1].CategoryValue + l[2].CategoryValue) / 3.0;
+                double average = -1; 
+                
+                for(int i =0; i< 3 ;i++)
+                {
+                        average += l[i].CategoryValue;
+                }
+                if (l.Count >= 3)
+                {
+                    average = average / 3;
+                }
+                else if(l.Count > 0)
+                    average = average / l.Count; 
+                
                 RegularUser ru = GetUserData(data.UserName).RegularUser;
 
                 switch (data.CategoryId)
@@ -245,6 +265,11 @@ namespace EcoCareServer.Controllers
                         data.CarbonFootprint = data.CategoryValue * Constants.MEAT_EMISSION_FACTOR;
                         if(data.CategoryValue < 5)
                         {
+                            if(average == -1)
+                            {
+                                average = ru.InitialMeatsMeals; 
+                            }
+
                             // we multiple by 100 because it is n
                             double stars = Constants.STARS_PER_10_PRECENT * (1 - data.CategoryValue / 5) * 10;
                             newStars = (int)stars;
@@ -255,25 +280,78 @@ namespace EcoCareServer.Controllers
                         }
                         break;
                     case 2:
+                        
                         data.CarbonFootprint = data.CategoryValue * Constants.AVERAGE_CAR_EMISSION;
                         if (data.CategoryValue < Constants.WORK_DAYS * 2 * ru.DistanceToWork)
                         {
-                            //יתוגמל פי 2
+                            newStars = (int)((1 - (data.CategoryValue / average)) * 10 * Constants.STARS_PER_10_PRECENT * 2);
                         }
                         else if(data.CategoryValue < average)
                         {
-                            //יתוגמל רגיל
+                            newStars = (int)((1 - (data.CategoryValue / average)) * 10 * Constants.STARS_PER_10_PRECENT);
+
+                            //in case of no average it w
                         }
-                         
+
                         break;
                     case 3:
+                        if (average == -1)
+                            average = ru.LastElectricityBill / 4; 
                         data.CarbonFootprint = data.CategoryValue * ef;
 
                         switch(ru.PeopleAtTheHousehold)
                         {
                             case 1:
                             case 2:
+                                if(data.CategoryValue < Constants.HOUSE_HOLD_OF_1_2)
+                                {
+                                    newStars  = (int)((1 - (data.CategoryValue / average)) * 10 * Constants.STARS_PER_10_PRECENT * 2);
 
+                                }
+                                else if(data.CategoryValue < average)
+                                {
+                                    newStars = (int)((1 - (data.CategoryValue / average)) * 10 * Constants.STARS_PER_10_PRECENT);
+
+                                }
+                                break;
+                            case 3:
+                            case 4:
+                                if (data.CategoryValue < Constants.HOUSE_HOLD_OF_3_4)
+                                {
+                                    newStars = (int)((1 - (data.CategoryValue / average)) * 10 * Constants.STARS_PER_10_PRECENT * 2);
+
+                                }
+                                else if (data.CategoryValue < average)
+                                {
+                                    newStars = (int)((1 - (data.CategoryValue / average)) * 10 * Constants.STARS_PER_10_PRECENT);
+
+                                }
+                                break;
+                            case 5:
+                            case 6:
+                                if (data.CategoryValue < Constants.HOUSE_HOLD_OF_5_6)
+                                {
+                                    newStars = (int)((1 - (data.CategoryValue / average)) * 10 * Constants.STARS_PER_10_PRECENT * 2);
+
+                                }
+                                else if (data.CategoryValue < average)
+                                {
+                                    newStars = (int)((1 - (data.CategoryValue / average)) * 10 * Constants.STARS_PER_10_PRECENT);
+
+                                }
+                                break;
+                            default:
+                                if (data.CategoryValue < Constants.HOUSE_HOLD_OF_7_PLUS)
+                                {
+                                    newStars = (int)((1 - (data.CategoryValue / average)) * 10 * Constants.STARS_PER_10_PRECENT * 2);
+
+                                }
+                                else if (data.CategoryValue < average)
+                                {
+                                    newStars = (int)((1 - (data.CategoryValue / average)) * 10 * Constants.STARS_PER_10_PRECENT);
+
+                                }
+                                break;
                         }
                         break;
                     default:
