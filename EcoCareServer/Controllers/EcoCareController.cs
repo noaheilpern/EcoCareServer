@@ -246,7 +246,7 @@ namespace EcoCareServer.Controllers
                 List<UsersDatum> l = context.UsersData.Where(d => d.CategoryId == data.CategoryId).OrderByDescending(u => u.DateT).ToList();
                 double average = -1; 
                 
-                for(int i =0; i< 3 ;i++)
+                for(int i =0; i< 3 && i<l.Count;i++)
                 {
                         average += l[i].CategoryValue;
                 }
@@ -257,7 +257,7 @@ namespace EcoCareServer.Controllers
                 else if(l.Count > 0)
                     average = average / l.Count; 
                 
-                RegularUser ru = GetUserData(data.UserName).RegularUser;
+                RegularUser ru = GetRegularUserData(data.UserName);
 
                 switch (data.CategoryId)
                 {
