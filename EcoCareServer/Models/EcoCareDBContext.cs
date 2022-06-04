@@ -19,7 +19,6 @@ namespace EcoCareServer.Models
 
         public virtual DbSet<Country> Countries { get; set; }
         public virtual DbSet<DatasCategory> DatasCategories { get; set; }
-        public virtual DbSet<Goal> Goals { get; set; }
         public virtual DbSet<GraphItem> GraphItems { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<RegularUser> RegularUsers { get; set; }
@@ -53,17 +52,6 @@ namespace EcoCareServer.Models
                     .HasName("PK__DatasCat__19093A0BA296769F");
             });
 
-            modelBuilder.Entity<Goal>(entity =>
-            {
-                entity.HasKey(e => e.DateT)
-                    .HasName("PK__Goals__BFFD85733CAE6C75");
-
-                entity.HasOne(d => d.UserNameNavigation)
-                    .WithMany(p => p.Goals)
-                    .HasForeignKey(d => d.UserName)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Goals__UserName__3A81B327");
-            });
 
             modelBuilder.Entity<RegularUser>(entity =>
             {

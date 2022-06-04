@@ -1,7 +1,5 @@
 ﻿
 Use master
-
-
 Create Database EcoCareDB
 Go
 
@@ -53,7 +51,7 @@ CREATE TABLE RegularUser(
     LastElectricityBill float not null,
     PeopleAtTheHousehold int not null,
 	Stars int,
-	UserCarbonFootPrint float not null, 
+	UserCarbonFootPrint float, 
 
 );
 

@@ -583,15 +583,15 @@ namespace EcoCareServer.Controllers
             return null;
 
         }
-        [Route("GetMa")]
+
         [Route ("GetSellerGraphsData")]
         [HttpGet]
 
-        public List<GraphItem> GetSellerGraphsData([FromBody] ICollection<Sale> sales)
+        public List<GraphItem> GetSellerGraphsData([FromQuery] string userName)
         {
             try
             {
-                
+                List<Sale> sales = this.context.Sales.Where(s => s.SellerUserName.Equals(userName)).ToList(); 
                 //calculate first day of each week
                 DateTime today = DateTime.Today;
 
@@ -747,6 +747,8 @@ namespace EcoCareServer.Controllers
                 //the user start foot print
 
                 RegularUser ru = context.RegularUsers.Where(u => u.UserName.Equals(userName)).FirstOrDefault();
+                if (ru.UserCarbonFootPrint == null)
+                    ru.UserCarbonFootPrint = -1;
                 double startFootPrint = (double)ru.UserCarbonFootPrint;
                //אם שווה null לטפל
                 //calculate first day of each week

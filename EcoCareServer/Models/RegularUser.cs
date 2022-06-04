@@ -13,7 +13,6 @@ namespace EcoCareServer.Models
     {
         public RegularUser()
         {
-            Goals = new HashSet<Goal>();
             Sales = new HashSet<Sale>();
             UsersData = new HashSet<UsersDatum>();
         }
@@ -26,8 +25,7 @@ namespace EcoCareServer.Models
         public int InitialMeatsMeals { get; set; }
         public bool VeganRareMeat { get; set; }
         public bool Vegetarian { get; set; }
-        [Required]
-        [StringLength(255)]
+        
         public string Transportation { get; set; }
         public double DistanceToWork { get; set; }
         public double LastElectricityBill { get; set; }
@@ -39,11 +37,10 @@ namespace EcoCareServer.Models
         [ForeignKey(nameof(UserName))]
         [InverseProperty(nameof(User.RegularUser))]
         public virtual User UserNameNavigation { get; set; }
-        [InverseProperty(nameof(Goal.UserNameNavigation))]
-        public virtual ICollection<Goal> Goals { get; set; }
         [InverseProperty(nameof(Sale.BuyerUserNameNavigation))]
         public virtual ICollection<Sale> Sales { get; set; }
         [InverseProperty(nameof(UsersDatum.UserNameNavigation))]
         public virtual ICollection<UsersDatum> UsersData { get; set; }
+
     }
 }
