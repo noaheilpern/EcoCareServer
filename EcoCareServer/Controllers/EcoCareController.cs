@@ -68,6 +68,13 @@ namespace EcoCareServer.Controllers
                 return false;
             }
         }
+
+        [Route("GetSellerUserName")]
+        [HttpGet]
+        public string GetSellerUserName([FromQuery]int productId)
+        {
+            return this.context.Products.Where(p => p.ProductId == productId).FirstOrDefault().SellersUsername; 
+        }
         [Route("DecreaseStars")]
         [HttpPost]
 
@@ -238,7 +245,7 @@ namespace EcoCareServer.Controllers
         [Route("AddData")]
         [HttpPost]
 
-        public bool AddUserData([FromBody] UsersDatum data, [FromQuery] double ef)
+        public int AddUserData([FromBody] UsersDatum data, [FromQuery] double ef)
         {
             if (data != null)
             {
@@ -362,15 +369,22 @@ namespace EcoCareServer.Controllers
                 }
                 this.context.AddData(data);
                 HttpContext.Session.SetObject("theData", data);
+                if (newStars > 0)
+                {
+                    ru.Stars += newStars;
+                    this.context.UpdateUser(ru);
+                    HttpContext.Session.SetObject("theUser", ru);
+
+                }
                 Response.StatusCode = (int)System.Net.HttpStatusCode.OK;
                 context.SaveChanges();
-                return true;
+                return newStars; 
             }
 
             else
             {
                 Response.StatusCode = (int)System.Net.HttpStatusCode.Forbidden;
-                return false;
+                return -1;
             }
         }
 
