@@ -237,7 +237,7 @@ namespace EcoCareServer.Controllers
             double userFootprint = 0;
             userFootprint += user.InitialMeatsMeals * Constants.MEAT_EMISSION_FACTOR;
             userFootprint += user.DistanceToWork * Constants.DAYS_A_WEEK * 2 * Constants.AVERAGE_CAR_EMISSION;
-            userFootprint += user.LastElectricityBill / 4 * GetCountryEF(user.UserNameNavigation.Country);
+            userFootprint += user.LastElectricityBill / 4 * GetEF(user.UserNameNavigation.Country);
 
             return 0; 
         }
@@ -560,23 +560,6 @@ namespace EcoCareServer.Controllers
 
         }
 
-        [Route("GetCountryEF")]
-        [HttpGet]
-
-        public double GetCountryEF([FromQuery] string country)
-        {
-            try
-            {
-                return context.Countries.Where(c => c.CountryName.Equals(country)).FirstOrDefault().Ef;
-
-            }
-            catch(Exception e)
-            {
-                Console.WriteLine(e);
-                return -1; 
-            }
-
-        }
         [Route("GetSellerData")]
         [HttpGet]
 
@@ -968,6 +951,37 @@ namespace EcoCareServer.Controllers
             return false;
 
 
+        }
+
+        [Route("LogOut")]
+        [HttpPost]
+        public bool LogOut()
+        {
+            try
+            {
+                User realUser = HttpContext.Session.GetObject<User>("theUser");
+
+                if (realUser != null)
+                {
+                    HttpContext.Session.Remove("theUser");
+
+                    Response.StatusCode = (int)System.Net.HttpStatusCode.OK;
+
+                    return true;
+                }
+
+                else
+                {
+                    Response.StatusCode = (int)System.Net.HttpStatusCode.NotFound;
+                    return false;
+                }
+            }
+
+            catch
+            {
+                Response.StatusCode = (int)System.Net.HttpStatusCode.NotFound;
+                return false;
+            }
         }
 
         [Route("Login")]
