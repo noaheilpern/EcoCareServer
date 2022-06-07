@@ -12,7 +12,6 @@ namespace EcoCareServer.Controllers
     {
         public const double MEAT_EMISSION_FACTOR = 7.726;
         public const double AVERAGE_CAR_EMISSION = 0.1684;
-        public const int WORK_DAYS = 5;
         public const int DAYS_A_WEEK = 7;
         public const double WEEKS_A_MONTH = 4;
         public const int STARS_PER_10_PRECENT = 50;
@@ -231,14 +230,14 @@ namespace EcoCareServer.Controllers
         [Route("CalculateCarbonFootprint")]
         [HttpPost]
 
-        //calculates the carbon footprint of the user and the goals for his carbon footprint
+        //calculates the carbon footprint of the user
 
         private double CalculateCarbonFootprint(RegularUser user)
         {
             double userFootprint = 0;
             userFootprint += user.InitialMeatsMeals * Constants.MEAT_EMISSION_FACTOR;
             userFootprint += user.DistanceToWork * Constants.DAYS_A_WEEK * 2 * Constants.AVERAGE_CAR_EMISSION;
-
+            userFootprint += user.LastElectricityBill / 4 * GetCountryEF(user.UserNameNavigation.Country);
 
             return 0; 
         }
@@ -289,7 +288,7 @@ namespace EcoCareServer.Controllers
                     case 2:
                         
                         data.CarbonFootprint = data.CategoryValue * Constants.AVERAGE_CAR_EMISSION;
-                        if (data.CategoryValue < Constants.WORK_DAYS * 2 * ru.DistanceToWork)
+                        if (data.CategoryValue < Constants.DAYS_A_WEEK * 2 * ru.DistanceToWork)
                         {
                             newStars = (int)((1 - (data.CategoryValue / average)) * 10 * Constants.STARS_PER_10_PRECENT * 2);
                         }
@@ -419,7 +418,7 @@ namespace EcoCareServer.Controllers
             if (u != null)
             {
                 double carbonFootprint = 0;
-                carbonFootprint += Constants.AVERAGE_CAR_EMISSION * Constants.WORK_DAYS * 2 * u.DistanceToWork;
+                carbonFootprint += Constants.AVERAGE_CAR_EMISSION * Constants.DAYS_A_WEEK * 2 * u.DistanceToWork;
                 carbonFootprint += Constants.MEAT_EMISSION_FACTOR * Constants.DAYS_A_WEEK * u.InitialMeatsMeals;
                 carbonFootprint += u.LastElectricityBill / 4 * GetEF(u.UserNameNavigation.Country);
                 u.UserCarbonFootPrint = carbonFootprint; 
