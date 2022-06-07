@@ -269,14 +269,13 @@ namespace EcoCareServer.Controllers
                 {
                     case 1:
                         data.CarbonFootprint = data.CategoryValue * Constants.MEAT_EMISSION_FACTOR;
-                        if(data.CategoryValue < 5)
+                        if (average == -1)
                         {
-                            if(average == -1)
-                            {
-                                average = ru.InitialMeatsMeals; 
-                            }
+                            average = ru.InitialMeatsMeals;
+                        }
+                        if (average < 5)
+                        {
 
-                            // we multiple by 100 because it is n
                             double stars = Constants.STARS_PER_10_PRECENT * (1 - data.CategoryValue / 5) * 10;
                             newStars = (int)stars;
                         }
@@ -296,7 +295,6 @@ namespace EcoCareServer.Controllers
                         {
                             newStars = (int)((1 - (data.CategoryValue / average)) * 10 * Constants.STARS_PER_10_PRECENT);
 
-                            //in case of no average it w
                         }
 
                         break;
@@ -309,7 +307,7 @@ namespace EcoCareServer.Controllers
                         {
                             case 1:
                             case 2:
-                                if(data.CategoryValue < Constants.HOUSE_HOLD_OF_1_2)
+                                if(average < Constants.HOUSE_HOLD_OF_1_2)
                                 {
                                     newStars  = (int)((1 - (data.CategoryValue / average)) * 10 * Constants.STARS_PER_10_PRECENT * 2);
 
@@ -322,7 +320,7 @@ namespace EcoCareServer.Controllers
                                 break;
                             case 3:
                             case 4:
-                                if (data.CategoryValue < Constants.HOUSE_HOLD_OF_3_4)
+                                if (average < Constants.HOUSE_HOLD_OF_3_4)
                                 {
                                     newStars = (int)((1 - (data.CategoryValue / average)) * 10 * Constants.STARS_PER_10_PRECENT * 2);
 
@@ -335,7 +333,7 @@ namespace EcoCareServer.Controllers
                                 break;
                             case 5:
                             case 6:
-                                if (data.CategoryValue < Constants.HOUSE_HOLD_OF_5_6)
+                                if (average < Constants.HOUSE_HOLD_OF_5_6)
                                 {
                                     newStars = (int)((1 - (data.CategoryValue / average)) * 10 * Constants.STARS_PER_10_PRECENT * 2);
 
@@ -347,7 +345,7 @@ namespace EcoCareServer.Controllers
                                 }
                                 break;
                             default:
-                                if (data.CategoryValue < Constants.HOUSE_HOLD_OF_7_PLUS)
+                                if (average < Constants.HOUSE_HOLD_OF_7_PLUS)
                                 {
                                     newStars = (int)((1 - (data.CategoryValue / average)) * 10 * Constants.STARS_PER_10_PRECENT * 2);
 
