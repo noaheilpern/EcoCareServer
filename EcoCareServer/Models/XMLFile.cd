@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="EcoCareServer.Models.Country">
+    <Position X="6.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Country.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EcoCareServer.Models.DatasCategory">
+    <Position X="9.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAwAAAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\DatasCategory.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="UsersData" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="EcoCareServer.Models.EcoCareDBContext">
+    <Position X="13.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAARAQARAAAAAABQQAEAAAAAAAAACAAAAAAAQ=</HashCode>
+      <FileName>Models\EcoCareDBContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EcoCareServer.Models.FootPrintItem">
+    <Position X="6.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>Models\FootPrintItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EcoCareServer.Models.GraphItem">
+    <Position X="11.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Models\GraphItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EcoCareServer.Models.Product">
+    <Position X="11.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAQAgAEAAAAEABAAAAAAAAAAhAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Product.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Sales" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="EcoCareServer.Models.RegularUser">
+    <Position X="5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AMAgQAAAAACAAQAAAAAABAAAAAAIAAAAgQAAACAgAAQ=</HashCode>
+      <FileName>Models\RegularUser.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="UserNameNavigation" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Sales" />
+      <Property Name="UsersData" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="EcoCareServer.Models.Sale">
+    <Position X="4.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAACAQAAAIAAAAAAAAAAAAAAAAAAAEEAAAAAAAACEAE=</HashCode>
+      <FileName>Models\Sale.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="SellerUserNameNavigation" />
+      <Property Name="BuyerUserNameNavigation" />
+      <Property Name="Product" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="EcoCareServer.Models.Seller">
+    <Position X="1" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAACAAAAAAAAABAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Models\Seller.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="UserNameNavigation" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="EcoCareServer.Models.User">
+    <Position X="0.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAACQAABAAAAAAAAAACAIAAAAAAQAAAAAACAg=</HashCode>
+      <FileName>Models\User.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="RegularUser" />
+      <Property Name="Seller" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="EcoCareServer.Models.UsersDatum">
+    <Position X="9.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAgAACAAAAAAAAAAAABCAAQAAAAAACAA=</HashCode>
+      <FileName>Models\UsersDatum.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="UserNameNavigation" />
+    </ShowAsAssociation>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

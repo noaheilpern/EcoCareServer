@@ -7,10 +7,6 @@ Use EcoCareDB
 Go
 
 
-CREATE TABLE GraphItem(
-	ValueFootPrint float not null, 
-	DateGraph Date, 
-	); 
 
 CREATE TABLE Product(
     Title nvarchar(255) not null,
@@ -368,9 +364,32 @@ INSERT INTO UsersData VALUES(1, 5, null, '2022-5-12', 'noa')
 INSERT INTO UsersData VALUES(2, 70, null, '2022-5-13', 'noa')
 INSERT INTO UsersData VALUES(3,250,null,'2022-5-13', 'noa')
 
+    DateBought Date not null,
+    PriceBought int not null,
+    SaleId int primary key not null,
+
+
+INSERT INTO Sales VALUES('noa','recycle.com',5, '2022-5-25', '500', '2')
+
+
+INSERT INTO Sales VALUES('noa','recycle.com',5, '2022-5-20', '500', '3')
+
+
+INSERT INTO Sales VALUES('noa','recycle.com',5, '2022-5-18', '500', '4')
+
+
+INSERT INTO Sales VALUES('noa','recycle.com',5, '2022-5-15', '500', '5')
+
+
+INSERT INTO Sales VALUES('noa','recycle.com',5, '2022-6-1', '500', '5')
+
+INSERT INTO Sales VALUES('noa','recycle.com',5, '2022-6-2', '500', '5')
+
+INSERT INTO Sales VALUES('noa','recycle.com',5, '2022-5-1', '500', '5')
 
  
 
  SELECT * FROM RegularUser
 Go
 select * from Users
+GO
