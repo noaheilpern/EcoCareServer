@@ -6,7 +6,8 @@ Go
 Use EcoCareDB
 Go
 
-
+SELECT * FROM Users
+GO
 
 CREATE TABLE Product(
     Title nvarchar(255) not null,
