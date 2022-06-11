@@ -6,8 +6,7 @@ Go
 Use EcoCareDB
 Go
 
-SELECT * FROM Users
-GO
+
 
 CREATE TABLE Product(
     Title nvarchar(255) not null,
@@ -57,13 +56,15 @@ CREATE TABLE Seller(
     PhoneNum nvarchar(255) not null,    
 );
 
+
+
 CREATE TABLE Sales(
     BuyerUserName nvarchar(255) references RegularUser not null,
 	SellerUserName nvarchar(255) foreign key references Seller not null, 
     ProductId int foreign key references Product not null,
     DateBought Date not null,
     PriceBought int not null,
-    SaleId int primary key not null,
+    SaleId int  IDENTITY(1,1) primary key,
 
 );
 
@@ -313,6 +314,8 @@ GO
 
 
  
+ INSERT INTO Users VALUES('Golda', 'g@g.com', '123456', 'Smadar', 'Levi', '0', 'Israel')
+  INSERT INTO Seller VALUES('Golda', '0774839580')
 
 
 INSERT INTO Users VALUES('noa', 'noa@gmail.com', '123456' , 'Noa', 'Heilpern', '0', 'Israel')
@@ -365,28 +368,25 @@ INSERT INTO UsersData VALUES(1, 5, null, '2022-5-12', 'noa')
 INSERT INTO UsersData VALUES(2, 70, null, '2022-5-13', 'noa')
 INSERT INTO UsersData VALUES(3,250,null,'2022-5-13', 'noa')
 
-    DateBought Date not null,
-    PriceBought int not null,
-    SaleId int primary key not null,
+    
+
+INSERT INTO Sales VALUES('noa','Golda',1, '2022-5-25', '300')
 
 
-INSERT INTO Sales VALUES('noa','recycle.com',5, '2022-5-25', '500', '2')
+INSERT INTO Sales VALUES('noa','Golda',1, '2022-5-20', '300')
 
 
-INSERT INTO Sales VALUES('noa','recycle.com',5, '2022-5-20', '500', '3')
+INSERT INTO Sales VALUES('noa','Golda',1, '2022-5-18', '300')
 
 
-INSERT INTO Sales VALUES('noa','recycle.com',5, '2022-5-18', '500', '4')
+INSERT INTO Sales VALUES('noa','Golda',1, '2022-5-15', '300')
 
 
-INSERT INTO Sales VALUES('noa','recycle.com',5, '2022-5-15', '500', '5')
+INSERT INTO Sales VALUES('noa','Golda',1, '2022-6-1', '300')
 
+INSERT INTO Sales VALUES('noa','Golda',1, '2022-6-2', '300')
 
-INSERT INTO Sales VALUES('noa','recycle.com',5, '2022-6-1', '500', '5')
-
-INSERT INTO Sales VALUES('noa','recycle.com',5, '2022-6-2', '500', '5')
-
-INSERT INTO Sales VALUES('noa','recycle.com',5, '2022-5-1', '500', '5')
+INSERT INTO Sales VALUES('noa','Golda',1, '2022-5-1', '300')
 
  
 
