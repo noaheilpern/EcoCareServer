@@ -244,13 +244,17 @@ namespace EcoCareServer.Controllers
         [Route("AddData")]
         [HttpPost]
 
-        public int AddUserData([FromBody] UsersDatum data, [FromQuery] double ef)
+        public int AddData([FromBody] UsersDatum data, [FromQuery] double ef)
         {
             if (data != null)
             {
                 int newStars = 0; 
-                List<UsersDatum> l = context.UsersData.Where(d => d.CategoryId == data.CategoryId).OrderByDescending(u => u.DateT).ToList();
-                double average = -1; 
+                List<UsersDatum> l = context.UsersData.Where(d => d.CategoryId == data.CategoryId && d.UserName.Equals(data.UserName)).OrderByDescending(u => u.DateT).ToList();
+                double average = 0;
+                if (l.Count == 0)
+                {
+                    average = -1; 
+                }
                 
                 for(int i =0; i< 3 && i<l.Count;i++)
                 {
@@ -285,7 +289,10 @@ namespace EcoCareServer.Controllers
                         }
                         break;
                     case 2:
-                        
+                        if(average == -1)
+                        {
+                            average = Constants.DAYS_A_WEEK * 2 * ru.DistanceToWork;
+                        }
                         data.CarbonFootprint = data.CategoryValue * Constants.AVERAGE_CAR_EMISSION;
                         if (data.CategoryValue < Constants.DAYS_A_WEEK * 2 * ru.DistanceToWork)
                         {
@@ -368,6 +375,10 @@ namespace EcoCareServer.Controllers
                 HttpContext.Session.SetObject("theData", data);
                 if (newStars > 0)
                 {
+                    if (newStars % 10 >= 5)
+                        newStars = (newStars / 10 + 1) * 10; 
+                    else
+                        newStars = (newStars / 10) * 10;
                     ru.Stars += newStars;
                     this.context.UpdateUser(ru);
                     HttpContext.Session.SetObject("theUser", ru);
@@ -906,7 +917,7 @@ namespace EcoCareServer.Controllers
                 DateTime today = DateTime.Today;
                 DateTime then = context.UsersData
                     .Where(d => d.CategoryId == categoryId && d.UserName.Equals(userName))
-                    .FirstOrDefault().DateT;
+                    .OrderByDescending(d => d.DateT).FirstOrDefault().DateT; 
                 TimeSpan ts = today.Subtract(then);
                 if (ts.Days >= 7)
                     return false;
