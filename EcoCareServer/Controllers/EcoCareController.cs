@@ -44,7 +44,7 @@ namespace EcoCareServer.Controllers
         public bool DeleteItem([FromBody] Product p)
         {
 
-            if (p != null)
+            if (p != null && HttpContext.Session.GetObject<User>("theUser") != null)
             {
                 try
                 {
@@ -72,75 +72,89 @@ namespace EcoCareServer.Controllers
         [HttpGet]
         public string GetSellerUserName([FromQuery]int productId)
         {
-            return this.context.Products.Where(p => p.ProductId == productId).FirstOrDefault().SellersUsername; 
+            if(HttpContext.Session.GetObject<User>("theUser")!= null)
+                return this.context.Products.Where(p => p.ProductId == productId).FirstOrDefault().SellersUsername; 
+            else
+            {
+                Response.StatusCode = (int)System.Net.HttpStatusCode.Forbidden;
+                return null; 
+            }
         }
         [Route("DecreaseStars")]
         [HttpPost]
 
         public bool DecreaseStars([FromQuery]int productId, string userName)
         {
-            try
+            if(HttpContext.Session.GetObject<User>("theUser") != null)
             {
-                RegularUser ru = null;
-                foreach (RegularUser u in context.RegularUsers)
+                try
                 {
-                    if (u.UserName.Equals(userName))
-                        ru = u;
-                }
-                int starsToDecrease = 0;
-                string sellerUserName = null;  
-                foreach (Product p in context.Products)
-                {
-                    if (p.ProductId == productId)
+                    RegularUser ru = null;
+                    foreach (RegularUser u in context.RegularUsers)
                     {
-                        starsToDecrease = p.Price;
-                        sellerUserName = p.SellersUsername; 
+                        if (u.UserName.Equals(userName))
+                            ru = u;
                     }
-                }
-                if(ru != null && starsToDecrease != 0)
-                {
-                    ru.Stars = ru.Stars - starsToDecrease;
-
-                    this.context.UpdateUser(ru);
-                    HttpContext.Session.SetObject("theUser", ru);
-                    Response.StatusCode = (int)System.Net.HttpStatusCode.OK;
-                    context.SaveChanges();
-
-
-                    if (sellerUserName != null)
+                    int starsToDecrease = 0;
+                    string sellerUserName = null;
+                    foreach (Product p in context.Products)
                     {
-                        Sale s = new Sale
+                        if (p.ProductId == productId)
                         {
-                            SellerUserName = sellerUserName,
-                            BuyerUserName = ru.UserName,
-                            DateBought = DateTime.Today,
-                            PriceBought = starsToDecrease,
-                            ProductId = productId,
+                            starsToDecrease = p.Price;
+                            sellerUserName = p.SellersUsername;
+                        }
+                    }
+                    if (ru != null && starsToDecrease != 0)
+                    {
+                        ru.Stars = ru.Stars - starsToDecrease;
 
-
-                        };
-                        this.context.AddSale(s);
-                        HttpContext.Session.SetObject("sale", s);
+                        this.context.UpdateUser(ru);
+                        HttpContext.Session.SetObject("theUser", ru);
                         Response.StatusCode = (int)System.Net.HttpStatusCode.OK;
                         context.SaveChanges();
+
+
+                        if (sellerUserName != null)
+                        {
+                            Sale s = new Sale
+                            {
+                                SellerUserName = sellerUserName,
+                                BuyerUserName = ru.UserName,
+                                DateBought = DateTime.Today,
+                                PriceBought = starsToDecrease,
+                                ProductId = productId,
+
+
+                            };
+                            this.context.AddSale(s);
+                            Response.StatusCode = (int)System.Net.HttpStatusCode.OK;
+                            context.SaveChanges();
+                            //Important! Due to the Lazy Loading, the user will be returned with all of its contects!!
+                            return true;
+                        }
+                        else
+                        {
+                            Response.StatusCode = (int)System.Net.HttpStatusCode.Forbidden;
+                            return false;
+                        }
+                        //add sales to seller sales 
+
                         //Important! Due to the Lazy Loading, the user will be returned with all of its contects!!
-                        return true;
-                    }
-                    else
-                    {
-                        Response.StatusCode = (int)System.Net.HttpStatusCode.Forbidden;
-                        return false;
-                    }
-                    //add sales to seller sales 
 
-                    //Important! Due to the Lazy Loading, the user will be returned with all of its contects!!
+                    }
 
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    return false;
                 }
 
             }
-            catch(Exception e)
+            else
             {
-                Console.WriteLine(e);
+                Response.StatusCode = (int)System.Net.HttpStatusCode.Forbidden;
                 return false;
             }
             return false; 
@@ -151,7 +165,7 @@ namespace EcoCareServer.Controllers
         public bool UpdateProduct([FromBody] Product p)
         {
 
-            if (p != null)
+            if (p != null && HttpContext.Session.GetObject<User>("theUser") != null)
             {
                 try
                 {
@@ -181,7 +195,7 @@ namespace EcoCareServer.Controllers
 
         public bool UpdateSeller([FromBody] Seller s)
         {
-            if (s != null)
+            if (s != null && HttpContext.Session.GetObject<User>("theUser") != null)
             {
                 this.context.UpdateSeller(s);
                 HttpContext.Session.SetObject("theUser", s);
@@ -204,7 +218,7 @@ namespace EcoCareServer.Controllers
 
         public bool UpdateUser([FromBody] RegularUser ru)
         {
-            if (ru != null)
+            if (ru != null && HttpContext.Session.GetObject<User>("theUser") != null)
             {
                 this.context.UpdateUser(ru);
                 HttpContext.Session.SetObject("theUser", ru);
@@ -246,154 +260,163 @@ namespace EcoCareServer.Controllers
 
         public int AddData([FromBody] UsersDatum data, [FromQuery] double ef)
         {
-            if (data != null)
+            if (HttpContext.Session.GetObject<User>("theUser") != null)
             {
-                int newStars = 0; 
-                List<UsersDatum> l = context.UsersData.Where(d => d.CategoryId == data.CategoryId && d.UserName.Equals(data.UserName)).OrderByDescending(u => u.DateT).ToList();
-                double average = 0;
-                if (l.Count == 0)
+                if (data != null)
                 {
-                    average = -1; 
-                }
-                
-                for(int i =0; i< 3 && i<l.Count;i++)
-                {
+                    int newStars = 0;
+                    List<UsersDatum> l = context.UsersData.Where(d => d.CategoryId == data.CategoryId && d.UserName.Equals(data.UserName)).OrderByDescending(u => u.DateT).ToList();
+                    double average = 0;
+                    if (l.Count == 0)
+                    {
+                        average = -1;
+                    }
+
+                    for (int i = 0; i < 3 && i < l.Count; i++)
+                    {
                         average += l[i].CategoryValue;
+                    }
+                    if (l.Count >= 3)
+                    {
+                        average = average / 3;
+                    }
+                    else if (l.Count > 0)
+                        average = average / l.Count;
+
+                    RegularUser ru = GetRegularUserData(data.UserName);
+
+                    switch (data.CategoryId)
+                    {
+                        case 1:
+                            data.CarbonFootprint = data.CategoryValue * Constants.MEAT_EMISSION_FACTOR;
+                            if (average == -1)
+                            {
+                                average = ru.InitialMeatsMeals;
+                            }
+                            if (average < 5)
+                            {
+
+                                double stars = Constants.STARS_PER_10_PRECENT * (1 - data.CategoryValue / 5) * 10;
+                                newStars = (int)stars;
+                            }
+                            else if (data.CategoryValue < average)
+                            {
+                                newStars = (int)((1 - (data.CategoryValue / average)) * 10 * Constants.STARS_PER_10_PRECENT);
+                            }
+                            break;
+                        case 2:
+                            if (average == -1)
+                            {
+                                average = Constants.DAYS_A_WEEK * 2 * ru.DistanceToWork;
+                            }
+                            data.CarbonFootprint = data.CategoryValue * Constants.AVERAGE_CAR_EMISSION;
+                            if (data.CategoryValue < Constants.DAYS_A_WEEK * 2 * ru.DistanceToWork)
+                            {
+                                newStars = (int)((1 - (data.CategoryValue / average)) * 10 * Constants.STARS_PER_10_PRECENT * 2);
+                            }
+                            else if (data.CategoryValue < average)
+                            {
+                                newStars = (int)((1 - (data.CategoryValue / average)) * 10 * Constants.STARS_PER_10_PRECENT);
+
+                            }
+
+                            break;
+                        case 3:
+                            if (average == -1)
+                                average = ru.LastElectricityBill / 4;
+                            data.CarbonFootprint = data.CategoryValue * ef;
+
+                            switch (ru.PeopleAtTheHousehold)
+                            {
+                                case 1:
+                                case 2:
+                                    if (average < Constants.HOUSE_HOLD_OF_1_2)
+                                    {
+                                        newStars = (int)((1 - (data.CategoryValue / average)) * 10 * Constants.STARS_PER_10_PRECENT * 2);
+
+                                    }
+                                    else if (data.CategoryValue < average)
+                                    {
+                                        newStars = (int)((1 - (data.CategoryValue / average)) * 10 * Constants.STARS_PER_10_PRECENT);
+
+                                    }
+                                    break;
+                                case 3:
+                                case 4:
+                                    if (average < Constants.HOUSE_HOLD_OF_3_4)
+                                    {
+                                        newStars = (int)((1 - (data.CategoryValue / average)) * 10 * Constants.STARS_PER_10_PRECENT * 2);
+
+                                    }
+                                    else if (data.CategoryValue < average)
+                                    {
+                                        newStars = (int)((1 - (data.CategoryValue / average)) * 10 * Constants.STARS_PER_10_PRECENT);
+
+                                    }
+                                    break;
+                                case 5:
+                                case 6:
+                                    if (average < Constants.HOUSE_HOLD_OF_5_6)
+                                    {
+                                        newStars = (int)((1 - (data.CategoryValue / average)) * 10 * Constants.STARS_PER_10_PRECENT * 2);
+
+                                    }
+                                    else if (data.CategoryValue < average)
+                                    {
+                                        newStars = (int)((1 - (data.CategoryValue / average)) * 10 * Constants.STARS_PER_10_PRECENT);
+
+                                    }
+                                    break;
+                                default:
+                                    if (average < Constants.HOUSE_HOLD_OF_7_PLUS)
+                                    {
+                                        newStars = (int)((1 - (data.CategoryValue / average)) * 10 * Constants.STARS_PER_10_PRECENT * 2);
+
+                                    }
+                                    else if (data.CategoryValue < average)
+                                    {
+                                        newStars = (int)((1 - (data.CategoryValue / average)) * 10 * Constants.STARS_PER_10_PRECENT);
+
+                                    }
+                                    break;
+                            }
+                            break;
+                        default:
+                            data.CarbonFootprint = 0;
+                            break;
+
+
+                    }
+                    this.context.AddData(data);
+                    HttpContext.Session.SetObject("theData", data);
+                    if (newStars > 0)
+                    {
+                        if (newStars % 10 >= 5)
+                            newStars = (newStars / 10 + 1) * 10;
+                        else
+                            newStars = (newStars / 10) * 10;
+                        ru.Stars += newStars;
+                        this.context.UpdateUser(ru);
+                        HttpContext.Session.SetObject("theUser", ru);
+
+                    }
+                    Response.StatusCode = (int)System.Net.HttpStatusCode.OK;
+                    context.SaveChanges();
+                    return newStars;
                 }
-                if (l.Count >= 3)
+
+                else
                 {
-                    average = average / 3;
+                    Response.StatusCode = (int)System.Net.HttpStatusCode.Forbidden;
+                    return -1;
                 }
-                else if(l.Count > 0)
-                    average = average / l.Count; 
-                
-                RegularUser ru = GetRegularUserData(data.UserName);
-
-                switch (data.CategoryId)
-                {
-                    case 1:
-                        data.CarbonFootprint = data.CategoryValue * Constants.MEAT_EMISSION_FACTOR;
-                        if (average == -1)
-                        {
-                            average = ru.InitialMeatsMeals;
-                        }
-                        if (average < 5)
-                        {
-
-                            double stars = Constants.STARS_PER_10_PRECENT * (1 - data.CategoryValue / 5) * 10;
-                            newStars = (int)stars;
-                        }
-                        else if(data.CategoryValue < average)
-                        {
-                            newStars = (int)((1 - (data.CategoryValue / average)) * 10 * Constants.STARS_PER_10_PRECENT);
-                        }
-                        break;
-                    case 2:
-                        if(average == -1)
-                        {
-                            average = Constants.DAYS_A_WEEK * 2 * ru.DistanceToWork;
-                        }
-                        data.CarbonFootprint = data.CategoryValue * Constants.AVERAGE_CAR_EMISSION;
-                        if (data.CategoryValue < Constants.DAYS_A_WEEK * 2 * ru.DistanceToWork)
-                        {
-                            newStars = (int)((1 - (data.CategoryValue / average)) * 10 * Constants.STARS_PER_10_PRECENT * 2);
-                        }
-                        else if(data.CategoryValue < average)
-                        {
-                            newStars = (int)((1 - (data.CategoryValue / average)) * 10 * Constants.STARS_PER_10_PRECENT);
-
-                        }
-
-                        break;
-                    case 3:
-                        if (average == -1)
-                            average = ru.LastElectricityBill / 4; 
-                        data.CarbonFootprint = data.CategoryValue * ef;
-
-                        switch(ru.PeopleAtTheHousehold)
-                        {
-                            case 1:
-                            case 2:
-                                if(average < Constants.HOUSE_HOLD_OF_1_2)
-                                {
-                                    newStars  = (int)((1 - (data.CategoryValue / average)) * 10 * Constants.STARS_PER_10_PRECENT * 2);
-
-                                }
-                                else if(data.CategoryValue < average)
-                                {
-                                    newStars = (int)((1 - (data.CategoryValue / average)) * 10 * Constants.STARS_PER_10_PRECENT);
-
-                                }
-                                break;
-                            case 3:
-                            case 4:
-                                if (average < Constants.HOUSE_HOLD_OF_3_4)
-                                {
-                                    newStars = (int)((1 - (data.CategoryValue / average)) * 10 * Constants.STARS_PER_10_PRECENT * 2);
-
-                                }
-                                else if (data.CategoryValue < average)
-                                {
-                                    newStars = (int)((1 - (data.CategoryValue / average)) * 10 * Constants.STARS_PER_10_PRECENT);
-
-                                }
-                                break;
-                            case 5:
-                            case 6:
-                                if (average < Constants.HOUSE_HOLD_OF_5_6)
-                                {
-                                    newStars = (int)((1 - (data.CategoryValue / average)) * 10 * Constants.STARS_PER_10_PRECENT * 2);
-
-                                }
-                                else if (data.CategoryValue < average)
-                                {
-                                    newStars = (int)((1 - (data.CategoryValue / average)) * 10 * Constants.STARS_PER_10_PRECENT);
-
-                                }
-                                break;
-                            default:
-                                if (average < Constants.HOUSE_HOLD_OF_7_PLUS)
-                                {
-                                    newStars = (int)((1 - (data.CategoryValue / average)) * 10 * Constants.STARS_PER_10_PRECENT * 2);
-
-                                }
-                                else if (data.CategoryValue < average)
-                                {
-                                    newStars = (int)((1 - (data.CategoryValue / average)) * 10 * Constants.STARS_PER_10_PRECENT);
-
-                                }
-                                break;
-                        }
-                        break;
-                    default:
-                        data.CarbonFootprint = 0;
-                        break; 
-
-
-                }
-                this.context.AddData(data);
-                HttpContext.Session.SetObject("theData", data);
-                if (newStars > 0)
-                {
-                    if (newStars % 10 >= 5)
-                        newStars = (newStars / 10 + 1) * 10; 
-                    else
-                        newStars = (newStars / 10) * 10;
-                    ru.Stars += newStars;
-                    this.context.UpdateUser(ru);
-                    HttpContext.Session.SetObject("theUser", ru);
-
-                }
-                Response.StatusCode = (int)System.Net.HttpStatusCode.OK;
-                context.SaveChanges();
-                return newStars; 
             }
-
             else
             {
                 Response.StatusCode = (int)System.Net.HttpStatusCode.Forbidden;
                 return -1;
             }
+            
         }
 
         [Route ("AddProduct")]
@@ -401,7 +424,7 @@ namespace EcoCareServer.Controllers
         public Product AddProduct([FromBody] Product p)
         {
 
-            if (p != null)
+            if (p != null && HttpContext.Session.GetObject<User>("theUser") != null)
             {
                 this.context.AddProduct(p);
                 HttpContext.Session.SetObject("theProduct", p);
@@ -560,12 +583,22 @@ namespace EcoCareServer.Controllers
                 Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
                 return null;
             }
-            foreach (User u in context.Users)
+            if (HttpContext.Session.GetObject<User>("theUser") != null)
             {
-                if (u.UserName.Equals(userName))
-                    return u;
+                foreach (User u in context.Users)
+                {
+                    if (u.UserName.Equals(userName))
+                        return u;
+                }
+                return null;
+
             }
-            return null;
+            else
+            {
+                Response.StatusCode = (int)System.Net.HttpStatusCode.Forbidden;
+
+            }
+            return null; 
 
         }
 
@@ -580,10 +613,19 @@ namespace EcoCareServer.Controllers
                 Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
                 return null;
             }
-            foreach (Seller s in context.Sellers)
+            if (HttpContext.Session.GetObject<User>("theUser") != null)
             {
-                if (s.UserName.Equals(userName))
-                    return s;
+
+                foreach (Seller s in context.Sellers)
+                {
+                    if (s.UserName.Equals(userName))
+                        return s;
+                }
+            }
+            else
+            {
+                Response.StatusCode = (int)System.Net.HttpStatusCode.Forbidden;
+
             }
             return null;
 
@@ -702,8 +744,6 @@ namespace EcoCareServer.Controllers
 
         }
 
-        //[Route("CalcCarbonFootprint")]
-        //[HttpGet]
         private void CalcCarbonFootprint(UsersDatum u, double ef)
         {
             if (u != null)
@@ -726,7 +766,6 @@ namespace EcoCareServer.Controllers
 
                 }
                 this.context.UpdateData(u);
-                HttpContext.Session.SetObject("theData", u);
                 Response.StatusCode = (int)System.Net.HttpStatusCode.OK;
                 context.SaveChanges();
             }
@@ -889,7 +928,7 @@ namespace EcoCareServer.Controllers
         public RegularUser GetRegularUserData([FromQuery] string userName)
         {
             //If username is null the request is bad
-            if (userName == null)
+            if (userName == null && HttpContext.Session.GetObject<User>("theUser") != null)
             {
                 Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
                 return null;
@@ -907,9 +946,7 @@ namespace EcoCareServer.Controllers
         [HttpGet]
         public bool IsDataExist([FromQuery] int categoryId, string userName)
         {
-            //IQueryable<UsersDatum> list = context.UsersData.Where(d => d.CategoryId == categoryId && d.UserName.Equals(userName));
-            //if (list == null)
-            //    return false;
+            
             if (context.UsersData.Where(d => d.CategoryId == categoryId && d.UserName.Equals(userName)).FirstOrDefault() == null)
                 return false;
             if (categoryId > 0)
