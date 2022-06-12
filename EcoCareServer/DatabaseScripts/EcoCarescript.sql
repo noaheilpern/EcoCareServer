@@ -359,14 +359,12 @@ INSERT INTO Product values('Zoi Gift Card 50$', 2000, 'A great greek restaurnt i
 1, 'Zoi')
 Go
 
+INSERT INTO UsersData values(1,7,null, '2022-6-6', 'noa') 
+INSERT INTO UsersData values(2, 100, null, '2022-6-8', 'noa') 
+INSERT INTO UsersData VALUES(3, 2000, null, '2022-6-7', 'noa')
 
-INSERT INTO UsersData values(1,7,null, '2022-5-6', 'noa') 
-INSERT INTO UsersData values(2, 100, null, '2022-5-4', 'noa') 
-INSERT INTO UsersData VALUES(3, 200, null, '2022-5-7', 'noa')
-
-INSERT INTO UsersData VALUES(1, 5, null, '2022-5-12', 'noa')
-INSERT INTO UsersData VALUES(2, 70, null, '2022-5-13', 'noa')
-INSERT INTO UsersData VALUES(3,250,null,'2022-5-13', 'noa')
+INSERT INTO UsersData VALUES(2, 70, null, '2022-6-12', 'noa')
+INSERT INTO UsersData VALUES(3,250,null,'2022-6-12', 'noa')
 
     
 
